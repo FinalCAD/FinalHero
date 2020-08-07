@@ -51,3 +51,23 @@ create unique index heroes_powers_id_uindex
 create unique index cities_id_uindex
     on cities (id);
 
+INSERT INTO cities (id, name) VALUES (1, 'London');
+INSERT INTO cities (id, name) VALUES (2, 'Gotham');
+INSERT INTO cities (id, name) VALUES (3, 'Metropolis');
+INSERT INTO cities (id, name) VALUES (4, 'Coast City');
+
+INSERT INTO heroes (id, name, city_id) VALUES (2, 'Wonder Woman', 1);
+INSERT INTO heroes (id, name, city_id) VALUES (3, 'Superman', 3);
+INSERT INTO heroes (id, name, city_id) VALUES (1, 'Batman', 2);
+
+INSERT INTO powers (id, name, description) VALUES (1, 'Super strength', 'Super strong muscles');
+INSERT INTO powers (id, name, description) VALUES (2, 'Heat vision', 'Shoot laser beams from the eyes');
+INSERT INTO powers (id, name, description) VALUES (3, 'Flight', 'Can fly through the air');
+INSERT INTO powers (id, name, description) VALUES (4, 'Batman', 'Enough said');
+
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (1, 1, 4);
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (2, 2, 1);
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (3, 2, 3);
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (4, 3, 1);
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (5, 3, 2);
+INSERT INTO heroes_powers (id, hero_id, power_id) VALUES (6, 3, 3);
