@@ -1,4 +1,10 @@
+using API.Infrastructure.Mappers;
+using AutoMapper;
+using BusinessLogic.DTOs.Responses;
+using BusinessLogic.Services;
+using BusinessLogic.Services.Interfaces;
 using DAL.Context;
+using DAL.Models;
 using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -20,9 +26,25 @@ namespace API
         public IConfiguration Configuration { get; }
 
 
+
         public void RegisterServicesAndRepositories(IServiceCollection services)
         {
-            services.AddTransient<IHeroRepository, HeroRepository>();
+            #region Base Repositories        
+            services.AddTransient<IBaseRepository<City>, BaseRepository<AppContext, City>>();
+            #endregion
+
+            #region BaseServices
+            services.AddTransient<IBaseService<City>, BaseService<City, IBaseRepository<City>>>();
+            #endregion
+
+
+            #region Repositories        
+            services.AddTransient<ICityRepository, CityRepository>();
+            #endregion
+
+            #region Services
+            services.AddTransient<ICityService, CityService>();
+            #endregion
         }
 
 
@@ -36,6 +58,10 @@ namespace API
                 var databaseConnectionString = Configuration["Database"];
                 o.UseNpgsql(databaseConnectionString);
             });
+
+
+            services.AddAutoMapper(typeof(CityMapper));
+
             RegisterServicesAndRepositories(services);
         }
 
