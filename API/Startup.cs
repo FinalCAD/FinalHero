@@ -9,6 +9,7 @@ using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,6 +64,17 @@ namespace API
             services.AddAutoMapper(typeof(CityMapper));
 
             RegisterServicesAndRepositories(services);
+
+
+            //versioning
+            services.AddApiVersioning(conf =>
+            {
+                conf.DefaultApiVersion = new ApiVersion(1, 0);
+                conf.AssumeDefaultVersionWhenUnspecified = true;
+                conf.ReportApiVersions = true;
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

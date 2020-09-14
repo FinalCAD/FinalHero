@@ -8,11 +8,12 @@ using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.V1
 {
-
-    [Route("api/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[Controller]")]
+
     public class  CityController : ControllerBase
     {
         #region 
@@ -25,8 +26,6 @@ namespace API.Controllers
             _cityService = cityService;
         }
         #endregion
-
-
 
         #region use cases
         //uses cases:
