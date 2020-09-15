@@ -32,19 +32,25 @@ namespace API
         {
             #region Base Repositories        
             services.AddTransient<IBaseRepository<City>, BaseRepository<AppContext, City>>();
+            services.AddTransient<IBaseRepository<Hero>, BaseRepository<AppContext, Hero>>();
+            services.AddTransient<IBaseRepository<HeroPower>, BaseRepository<AppContext, HeroPower>>();
             #endregion
 
             #region BaseServices
             services.AddTransient<IBaseService<City>, BaseService<City, IBaseRepository<City>>>();
+            services.AddTransient<IBaseService<Hero>, BaseService<Hero, IBaseRepository<Hero>>>();
             #endregion
 
 
             #region Repositories        
             services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<IHeroRepository, HeroRepository>();
+            services.AddTransient<IHeroPowerRepository, HeroPowerRepository>();
             #endregion
 
             #region Services
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IHeroService, HeroService>();
             #endregion
         }
 
@@ -60,8 +66,14 @@ namespace API
                 o.UseNpgsql(databaseConnectionString);
             });
 
+            // automapper
+            services.AddAutoMapper(
+                typeof(CityMapper),
+                typeof(HeroMapper),
+                typeof(HeroPowerMapper),
+                typeof(Power)
+                );
 
-            services.AddAutoMapper(typeof(CityMapper));
 
             RegisterServicesAndRepositories(services);
 

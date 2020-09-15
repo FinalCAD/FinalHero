@@ -30,6 +30,6 @@ namespace DAL.Models
         /// <summary>
         /// List of all hero that have a power
         /// </summary>
-        public virtual ICollection<Hero> Heroes { get; set; }
+        public virtual ICollection<HeroPower> HeroPowers { get; set; }
     }
 }

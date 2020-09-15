@@ -16,7 +16,7 @@ namespace API.Controllers.V1
 
     public class  CityController : ControllerBase
     {
-        #region 
+        #region objects
         private readonly ICityService _cityService;
         #endregion
 
@@ -36,8 +36,11 @@ namespace API.Controllers.V1
         /// <param name="offset"></param>
         /// <param name="max"></param>
         /// <returns></returns>
+        /// 
+        
         [HttpGet]
         [ProducesResponseType(typeof(CityResponseDTO), 200)]
+        
         public async Task<CityResponseDTO> GetCities(int offset = 0, int max = 100)
         {
             return await _cityService.GetCities(null,offset,max);
@@ -45,6 +48,8 @@ namespace API.Controllers.V1
 
 
         //Get Top 10 City with more heroes.
+
+
         //Get a city by it id with it top 10 heros
         //Get a city with all it heroes
         //Add a city

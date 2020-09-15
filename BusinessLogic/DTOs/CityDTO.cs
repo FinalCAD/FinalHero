@@ -11,11 +11,15 @@ namespace BusinessLogic.DTOs
     /// </summary>
     public class CityDTO
     {
+        [Required]
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
         [Required, MaxLength(40, ErrorMessage = "City name have to be less than 40")]
-        [JsonPropertyName("name")]
+        [JsonPropertyName("city_name")]
         public string Name { get; set; }
 
         [JsonPropertyName("heroes")]
-        public List<HeroDTO> Heroes { get; set; }
+        public virtual List<HeroDTO> Heroes { get; set; }
     }
 }

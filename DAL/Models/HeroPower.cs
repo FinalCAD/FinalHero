@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DAL.Models
 {
-    [Table("heroes_table")]
+    [Table("heroes_powers")]
     public class HeroPower : BaseEntity
     {
 
@@ -15,6 +15,7 @@ namespace DAL.Models
         /// </summary>
         [Column("hero_id")]
         public int HeroId { get; set; }
+
         public virtual Hero Hero { get; set; }
 
 
@@ -23,6 +24,7 @@ namespace DAL.Models
         /// </summary>
         [Column("power_id")]
         public int PowerId { get; set; }
+
         public virtual Power Power { get; set; }
 
 

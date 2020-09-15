@@ -2,6 +2,7 @@
 using DAL.Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -12,6 +13,11 @@ namespace DAL.Repositories.Interfaces
     {
 
         Task<ICollection<T>> ListAsync(Expression<Func<T, bool>> exp, int offset, int limit);
+
+
+        IQueryable<T> Query(Expression<Func<T, bool>> exp, int offset, int limit);
+       
+        IQueryable<T> Query(Expression<Func<T, bool>> exp);
 
         Task<T> GetById(int id);
 

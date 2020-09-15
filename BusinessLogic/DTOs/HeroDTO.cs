@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace BusinessLogic.DTOs
@@ -6,9 +9,26 @@ namespace BusinessLogic.DTOs
     public class HeroDTO
     {
 
-        [Required,MaxLength(40,
-            ErrorMessage ="that a hero names, keep it short and beauti and no more than fourthy !!")]
+        [JsonPropertyName("id")]
+        [Required]
+        public int Id { get; set; }
+
+
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [Required, MaxLength(40,
+         ErrorMessage = "that a hero names, keep it short and beauti and no more than fourthy !!")]
+        public string HeroName { get; set; }
+
+
+        [JsonPropertyName("city_id")]
+        [Required]
+        public int CityId { get; set; }
+
+        [JsonPropertyName("city")]
+        [MaxLength(40,
+         ErrorMessage = "that a hero names, keep it short and beauti and no more than fourthy !!")]
+        public string CityName { get; set; }
+
+
     }
 }

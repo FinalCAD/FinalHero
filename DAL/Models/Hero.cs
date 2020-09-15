@@ -7,15 +7,20 @@ using System.Text;
 namespace DAL.Models
 {
     [Table("heroes")]
-    public class Hero:BaseEntity
+    public class Hero : BaseEntity
     {
 
         /// <summary>
         /// 
         /// </summary>
+        [Column("id")]
+        [Required, MaxLength(40)]
+        public int Id { get; set; }
+
+
         [Column("name")]
-        [Required,MaxLength(40)]
-        public string name { get; set; }
+        [Required, MaxLength(40)]
+        public string Name { get; set; }
 
 
         /// <summary>
@@ -24,11 +29,8 @@ namespace DAL.Models
         [Column("city_id")]
         public int CityId { get; set; }
 
+        public virtual City City { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [ForeignKey("CityId")]
-        public City City { get; set; }
+        public virtual List<HeroPower> HeroPowers { get; set; }
     }
 }

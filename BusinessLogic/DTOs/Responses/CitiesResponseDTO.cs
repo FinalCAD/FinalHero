@@ -8,9 +8,9 @@ namespace BusinessLogic.DTOs.Responses
     /// <summary>
     /// a City with 
     /// </summary>
-    public class CityResponseDTO
+    public class CityResponseDTO : DifferentialDTO<CityDTO>
     {
         [JsonPropertyName("cities")]
-        public virtual List<CityDTO> Entities { get; set; }
+        public override List<CityDTO> Entities { get; set; }
     }
 }
