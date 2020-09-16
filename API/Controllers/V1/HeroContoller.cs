@@ -51,20 +51,22 @@ namespace API.Controllers.V1
             return heroPowerReponseDTO;
         }
 
-        //UC: He02
+
+
+        //UC: He02:Create a hero in a city but with powers at least one.
         //[ApiVersion("1.0")]
         //[Produces("application/json")]
-        //[Route("api/v{version:apiVersion}/hero/Powers")]
+        //[Route("api/v{version:apiVersion}/hero/Powers/")]
 
         //[HttpPost]
-        //public async Task Create([FromBody] HeroDTO heroDTO, [FromBody]PowerDTO powerDTO)
+        //public async Task Create([FromBody] HeroDTO heroDTO, [FromBody] PowerDTO powerDTO)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        throw new Exception("the parameters are not correct");
         //    }
 
-        //    await _service.AddHeroWithPowerAsync(heroDTO, powerDTO);
+        //    await _service.AddNewHeroWithPowerAsync(heroDTO, powerDTO);
 
         //}
 

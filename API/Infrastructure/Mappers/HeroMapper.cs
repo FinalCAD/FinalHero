@@ -13,7 +13,8 @@ namespace API.Infrastructure.Mappers
     {
         public HeroMapper()
         {
-            CreateMap<Hero, HeroDTO>()
+            CreateMap<Hero, HeroCityPowersDTO>()
+                .ForMember(dto => dto.HeroName, map => map.MapFrom(s => s.Name))
                 .ForMember(dto => dto.CityName, map => map.MapFrom(s => s.City.Name))
                 .ForMember(dto => dto.CityId, map => map.MapFrom(s => s.City.Id))
                 .ForMember(dto => dto.Powers, map => map.MapFrom(s => s.HeroPowers.Select(hp => hp.Power).ToList()))
@@ -21,7 +22,7 @@ namespace API.Infrastructure.Mappers
                 ;
 
 
-            CreateMap<HeroDTO, Hero>()
+            CreateMap<HeroCityPowersDTO, Hero>()
                 .ForMember(m => m.CityId, map => map.MapFrom(dto => dto.CityId));
 
         }

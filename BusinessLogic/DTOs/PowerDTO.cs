@@ -13,16 +13,8 @@ namespace BusinessLogic.DTOs
         public int Id { get; set; }
 
 
-        [JsonPropertyName("hero_id")]
-        public int HeroID { get; set; }
-
-
-        [JsonPropertyName("hero_power")]
-        public virtual HeroPower HeroPower { get; set; }
-
-
-        [JsonPropertyName("power_id")]
-        public int PowerId { get; set; }
+        [JsonPropertyName("power")]
+        public string Name { get; set; }
 
     }
 }

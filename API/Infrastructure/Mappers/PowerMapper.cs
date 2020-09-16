@@ -15,7 +15,7 @@ namespace API.Infrastructure.Mappers
             CreateMap<Power, PowerDTO>();
             CreateMap<PowerDTO, Power>();
 
-            CreateMap<Power, PowerOrphanDTO>();
+            //CreateMap<Power, PowerOrphanDTO>();
             //CreateMap<PowerOrphelinDTO, Power>();
 
 

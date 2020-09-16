@@ -6,15 +6,18 @@ using System.Text.Json.Serialization;
 
 namespace BusinessLogic.DTOs
 {
-    public class PowerOrphanDTO
+    public class PowerHerosDTO
     {
         
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-
-        [JsonPropertyName("power")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+
+
+        [JsonPropertyName("hero_power")]
+        public virtual List<HeroPower> HeroPower { get; set; }
 
     }
 }

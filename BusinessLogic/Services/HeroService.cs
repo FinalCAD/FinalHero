@@ -17,10 +17,7 @@ namespace BusinessLogic.Services
     public class HeroService : BaseService<Hero, IBaseRepository<Hero>>, IHeroService
     {
         private readonly IHeroRepository _repository;
-        //private readonly IHeroPowerService _heroPowerService;
         private readonly IMapper _mapper;
-
-        //private readonly ICityService _cityService;
 
         public HeroService(
             IHeroRepository repository, 
@@ -29,27 +26,32 @@ namespace BusinessLogic.Services
             ) : base(repository)
         {
             _repository = repository;
-            //_heroPowerService = heroPowerService;
             _mapper = mapper;
         }
 
 
         #region endpoints
 
+        /// <summary>
+        /// Get heroes
+        /// </summary>
+        /// <param name="offset">Shift of the selections</param>
+        /// <param name="max">Result length</param>
+        /// <returns>list heros including theirs cities and powers</returns>
         public async Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max)
         {
 
             var heroes = await _repository.GetHeroInclCityAndHeroPowersThenPower(offset,max);
 
-            var heroDTOs = _mapper.Map<List<HeroDTO>>(heroes);
+            var heroCityPowersDTOs = _mapper.Map<List<HeroCityPowersDTO>>(heroes);
 
 
-            var total_count = heroDTOs.Count();
+            var total_count = heroCityPowersDTOs.Count();
 
 
             return new HeroResponseDTO()
             {
-                Entities = _mapper.Map<List<HeroDTO>>(heroDTOs),
+                Entities = heroCityPowersDTOs,
                 Meta = new ListMetaData()
                 {
                     TotalCount = total_count,
@@ -58,18 +60,10 @@ namespace BusinessLogic.Services
             };
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="hero_id"></param>
-        /// <param name="powerDTO"></param>
-        /// <returns></returns>
-        public async Task AddPowerToHeroAsync(int hero_id, PowerDTO powerDTO)
-        {
-            var heroInDb = await _repository.GetById(hero_id);
-        }
 
-      
+  
+
+
 
         #endregion
     }
