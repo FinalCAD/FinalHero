@@ -45,12 +45,12 @@ namespace API
             #region Repositories        
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<IHeroRepository, HeroRepository>();
-            services.AddTransient<IHeroPowerRepository, HeroPowerRepository>();
+
             #endregion
 
             #region Services
-            services.AddTransient<ICityService, CityService>();
             services.AddTransient<IHeroService, HeroService>();
+            services.AddTransient<ICityService, CityService>();
             #endregion
         }
 
@@ -71,7 +71,7 @@ namespace API
                 typeof(CityMapper),
                 typeof(HeroMapper),
                 typeof(HeroPowerMapper),
-                typeof(Power)
+                typeof(PowerMapper)
                 );
 
 

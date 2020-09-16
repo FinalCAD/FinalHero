@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.DTOs;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.Interfaces
 {
-    public interface IHeroService
+    public interface IHeroService:IBaseService<Hero>
     {
-        Task<HeroPowersResponseDTO> GetHerosWithCityAndPowers(int offset, int max);
-        //Task AddPowerToHeroAsync(int hero_id, PowerDTO powerDTO);
+        Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max);
 
-        //Task<HeroResponseDTO>
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLogic.DTOs;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace API.Infrastructure.Mappers
 {
-    public class PowerDTO : Profile
+    public class PowerMapper : Profile
     {
-        public PowerDTO()
+        public PowerMapper()
         {
             CreateMap<Power, PowerDTO>();
             CreateMap<PowerDTO, Power>();
+
+            CreateMap<Power, PowerOrphanDTO>();
+            //CreateMap<PowerOrphelinDTO, Power>();
+
+
         }
     }
 }

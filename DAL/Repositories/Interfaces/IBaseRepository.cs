@@ -18,6 +18,7 @@ namespace DAL.Repositories.Interfaces
         IQueryable<T> Query(Expression<Func<T, bool>> exp, int offset, int limit);
        
         IQueryable<T> Query(Expression<Func<T, bool>> exp);
+        IQueryable<T> Query();
 
         Task<T> GetById(int id);
 

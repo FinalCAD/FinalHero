@@ -30,5 +30,12 @@ namespace BusinessLogic.DTOs
         public string CityName { get; set; }
 
 
+        [JsonPropertyName("powers")]
+        public virtual List<PowerOrphanDTO> Powers { get; set; }
+
+        [JsonPropertyName("powers_count")]
+        public int PowersCount { get; set; } = 0;
+
+
     }
 }

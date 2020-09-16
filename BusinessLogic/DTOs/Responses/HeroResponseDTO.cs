@@ -7,11 +7,11 @@ namespace BusinessLogic.Services.Interfaces
 {
 
 
-    public class HeroPowersResponseDTO : DifferentialDTO<HeroCityPowersDTO>
+    public class HeroResponseDTO : DifferentialDTO<HeroDTO>
     {
 
         [JsonPropertyName("entities")]
-        public override List<HeroCityPowersDTO> Entities { get; set; }
+        public override List<HeroDTO> Entities { get; set; }
 
     }
 }

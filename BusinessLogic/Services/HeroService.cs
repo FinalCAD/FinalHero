@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,61 +16,40 @@ namespace BusinessLogic.Services
 {
     public class HeroService : BaseService<Hero, IBaseRepository<Hero>>, IHeroService
     {
-        private readonly IBaseRepository<Hero> _heroRepository;
-        private readonly IBaseRepository<HeroPower> _heroPowerRepository;
+        private readonly IHeroRepository _repository;
+        //private readonly IHeroPowerService _heroPowerService;
         private readonly IMapper _mapper;
 
-        public HeroService(IBaseRepository<Hero> heroRepository, 
-            IBaseRepository<HeroPower> heroPowerRepository, 
-            IMapper mapper) 
-            : base(heroRepository)
+        //private readonly ICityService _cityService;
+
+        public HeroService(
+            IHeroRepository repository, 
+            ICityService cityService,
+            IMapper mapper
+            ) : base(repository)
         {
-            _heroRepository = heroRepository;
-            _heroPowerRepository = heroPowerRepository;
+            _repository = repository;
+            //_heroPowerService = heroPowerService;
             _mapper = mapper;
         }
 
-        
+
         #region endpoints
 
-        /// <summary>
-        /// overload the server coz the fist includable
-        /// </summary>
-        /// <param name="offset"></param>
-        /// <param name="max"></param>
-        /// <returns></returns>
-        public async Task<HeroPowersResponseDTO> GetHerosWithCityAndPowers(int offset, int max)
+        public async Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max)
         {
 
-            var heroPowers = _heroPowerRepository
-                .Query(x => true)
-                .Include(hp => hp.Power)
-                .Include(hp => hp.Hero)
-                .ThenInclude(h => h.City)
-                .ToList();
-       
+            var heroes = await _repository.GetHeroInclCityAndHeroPowersThenPower(offset,max);
 
-            var heroPowersDTO = heroPowers.
-                GroupBy(hp => hp.Hero.Id)
-                .Select(g => new HeroCityPowersDTO
-                {
-                    Hero = g.FirstOrDefault().Hero.Name,
-                    City = g.FirstOrDefault().Hero.City.Name,
-                    Powers = g.Select(gg => gg.Power.Name).ToList(),
-                    PowersCount = g.Select(gg => gg.Power.Name).Count()
-                })
-                .OrderBy(hpd => hpd.Hero)
-                .Skip(offset)
-                .Take(max)
-                .ToList();
+            var heroDTOs = _mapper.Map<List<HeroDTO>>(heroes);
 
 
-            var total_count = heroPowersDTO.Count();
+            var total_count = heroDTOs.Count();
 
 
-            return new HeroPowersResponseDTO()
+            return new HeroResponseDTO()
             {
-                Entities = heroPowersDTO.ToList(),
+                Entities = _mapper.Map<List<HeroDTO>>(heroDTOs),
                 Meta = new ListMetaData()
                 {
                     TotalCount = total_count,
@@ -77,7 +57,6 @@ namespace BusinessLogic.Services
                 }
             };
         }
-
 
         /// <summary>
         /// 
@@ -87,8 +66,10 @@ namespace BusinessLogic.Services
         /// <returns></returns>
         public async Task AddPowerToHeroAsync(int hero_id, PowerDTO powerDTO)
         {
-            var heroInDb = _heroRepository.GetById(hero_id);
+            var heroInDb = await _repository.GetById(hero_id);
         }
+
+      
 
         #endregion
     }

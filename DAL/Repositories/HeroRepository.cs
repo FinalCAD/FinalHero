@@ -21,8 +21,20 @@ namespace DAL.Repositories
         {
             _context = context;
         }
-
         #region methods
+
+        public async Task<List<Hero>> GetHeroInclCityAndHeroPowersThenPower(int offset,int limit)
+        {
+            return await _context.Set<Hero>()
+                .Include(h=>h.City)
+                .Include(h => h.HeroPowers)
+                .ThenInclude(hp=>hp.Power)
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
+        }
+
+
 
 
         #endregion

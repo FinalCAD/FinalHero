@@ -41,7 +41,7 @@ namespace BusinessLogic.DTOs
         /// </summary>
         [JsonPropertyName("powers")]
         [Required]
-        public List<string> Powers { get; set; }
+        public List<PowerDTO> Powers { get; set; }
 
         [Required,DefaultValue(0)]
         [JsonPropertyName("powers_count")]

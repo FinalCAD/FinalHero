@@ -79,6 +79,16 @@ namespace DAL.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        public IQueryable<T> Query()
+        {
+            return _Context.Set<T>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public IQueryable<T> Set()
         {
