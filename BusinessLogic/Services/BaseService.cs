@@ -2,6 +2,7 @@
 using DAL.Models;
 
 using DAL.Repositories.Interfaces;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -37,6 +38,11 @@ namespace BusinessLogic.Services
             return await _repository.InsertAsync(entry);
         }
 
+        public async Task<ICollection<T>> AddOrUpdateRangeAsync(ICollection<T> entries)
+        {
+            return await _repository.InsertRangeAsync(entries);
+                 
+        }
 
         /// <summary>
         /// 
@@ -63,13 +69,37 @@ namespace BusinessLogic.Services
             foreach (var entry in entries)
             {
                 if (!await _repository.ExistEntityAsync(entry.Id))
-                { 
-                    throw new Exception("Entry to delete not existed."); 
+                {
+                    throw new Exception("Entry to delete not existed.");
                 }
             }
             await _repository.DeleteRangeAsync(entries);
         }
 
+        public async Task<bool> ExistedAsync(int id)
+        {
+            return await _repository.ExistEntityAsync(id);
+        }
+
+        public Task<bool> ExistedAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> ExistedRangeByIdsAsync(ICollection<int> entitiyIds)
+        {
+            return await _repository.ExistEntitiesRangeAsync(entitiyIds);
+        }
+
+        //public async Task<bool> ExistedRangeAsync(ICollection<T> entities)
+        //{
+        //    return await _repository.ExistEntitiesRangeAsync(entities);
+
+        //}
+        public async Task<bool> ExistedRangeAsync(ICollection<T> entities)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 
@@ -89,10 +119,11 @@ namespace BusinessLogic.Services
         /// <param name="offset"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public async Task<ICollection<T>> GetListAsync(Expression<Func<T,bool>> exp,int offset, int max)
+        public async Task<ICollection<T>> GetListAsync(Expression<Func<T, bool>> exp, int offset, int max)
         {
             return await _repository.ListAsync(exp, offset, max);
         }
 
+       
     }
 }

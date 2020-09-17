@@ -16,10 +16,8 @@ namespace BusinessLogic.DTOs
         public int Id { get; set; }
 
         [Required, MaxLength(40, ErrorMessage = "City name have to be less than 40")]
-        [JsonPropertyName("city_name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("heroes")]
-        public virtual List<HeroDTO> Heroes { get; set; }
     }
 }

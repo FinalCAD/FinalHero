@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BusinessLogic.DTOs
 {
-    public class PowerHerosDTO
+    public class PowerHeroPowersDTO
     {
         
         [JsonPropertyName("id")]
@@ -14,10 +14,6 @@ namespace BusinessLogic.DTOs
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
-
-
-        [JsonPropertyName("hero_power")]
-        public virtual List<HeroPower> HeroPower { get; set; }
 
     }
 }

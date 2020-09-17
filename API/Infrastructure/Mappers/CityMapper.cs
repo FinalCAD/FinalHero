@@ -13,12 +13,12 @@ namespace API.Infrastructure.Mappers
     {
         public CityMapper()
         {
-            CreateMap<City, CityDTO>()
-               .ForMember(dto => dto.Heroes, map => map.MapFrom(s => s.Heroes == null ? null : s.Heroes));
-
-            CreateMap<List<CityDTO>, CityResponseDTO>()
-                .ForPath(r => r.Entities, map => map.MapFrom(s => s));
+            CreateMap<City, CityDTO>();
             
+            CreateMap<CityDTO, City>();
+
+            CreateMap<List<CityDTO>, CityResponseDTO>();
+
         }
     }
 }

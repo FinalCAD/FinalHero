@@ -13,17 +13,17 @@ namespace API.Infrastructure.Mappers
     {
         public HeroMapper()
         {
+            CreateMap<Hero, HeroDTO>();
+            CreateMap<HeroDTO, Hero>();
+
             CreateMap<Hero, HeroCityPowersDTO>()
-                .ForMember(dto => dto.HeroName, map => map.MapFrom(s => s.Name))
-                .ForMember(dto => dto.CityName, map => map.MapFrom(s => s.City.Name))
-                .ForMember(dto => dto.CityId, map => map.MapFrom(s => s.City.Id))
-                .ForMember(dto => dto.Powers, map => map.MapFrom(s => s.HeroPowers.Select(hp => hp.Power).ToList()))
-                .ForMember(dto => dto.PowersCount, map => map.MapFrom(s => s.HeroPowers.Count()))
-                ;
+                .ForMember(dto => dto.CityDTO, map => map.MapFrom(s => s.City))
+                .ForMember(dto => dto.HeroPowerDTOs, map => map.MapFrom(s => s.HeroPowers))
+                .ForMember(dto => dto.PowersCount, map => map.MapFrom(s => s.HeroPowers.Count()));
 
 
             CreateMap<HeroCityPowersDTO, Hero>()
-                .ForMember(m => m.CityId, map => map.MapFrom(dto => dto.CityId));
+                .ForMember(e => e.CityId, map => map.MapFrom(dto => dto.CityDTO.Id));
 
         }
 

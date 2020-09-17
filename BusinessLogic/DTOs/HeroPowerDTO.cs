@@ -8,23 +8,18 @@ namespace BusinessLogic.DTOs
 {
     public class HeroPowerDTO
     {
+
+        [Required]
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        
         [Required]
         [JsonPropertyName("hero_id")]
         public int HeroId { get; set; }
 
         [Required]
-        [JsonPropertyName("hero")
-            , MaxLength(40, ErrorMessage = ("Hero length is Less than 40"))]
-        public HeroDTO Hero { get; set; }
-
-        [Required]
-        [JsonPropertyName("hero_id")]
+        [JsonPropertyName("power_id")]
         public int PowerId { get; set; }
-
-        [Required]
-        [JsonPropertyName("power")
-            ,MaxLength(40,ErrorMessage =("Power length is Less than 40"))]
-        public PowerDTO Power { get; set; }
 
     }
 }

@@ -37,6 +37,14 @@ namespace DAL.Repositories
             return entry;
         }
 
+
+        public async Task<ICollection<T>> InsertRangeAsync(ICollection<T> entries)
+        {
+            await _Context.Set<T>().AddRangeAsync(entries);
+            _Context.SaveChanges();
+            return entries;
+        }
+
         #endregion
 
         #region Read
@@ -130,6 +138,7 @@ namespace DAL.Repositories
         }
 
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -193,6 +202,31 @@ namespace DAL.Repositories
             return await _Context.SaveChangesAsync();
         }
 
+        public async Task<T> GetAsync(Expression<Func<T, bool>> exp) => await _Context.Set<T>().FirstOrDefaultAsync();
+
+
+        public async Task<bool> ExistEntitiesRangeAsync(ICollection<int> entityIds)
+        {
+            foreach (var id in entityIds)
+            {
+                if (!await _Context.Set<T>()
+                    .AnyAsync(t => t.Id == id))
+                    return false;
+            }
+            return true;
+        }
+
+
+        public async Task<bool> ExistEntitiesRangeAsync(ICollection<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (!await _Context.Set<T>()
+                    .AnyAsync(t => t.Id == entity.Id))
+                    return false;
+            }
+            return true;
+        }
         #endregion
     }
 }

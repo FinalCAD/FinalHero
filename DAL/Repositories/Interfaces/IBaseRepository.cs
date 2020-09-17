@@ -18,11 +18,16 @@ namespace DAL.Repositories.Interfaces
         IQueryable<T> Query(Expression<Func<T, bool>> exp, int offset, int limit);
        
         IQueryable<T> Query(Expression<Func<T, bool>> exp);
+        
         IQueryable<T> Query();
 
         Task<T> GetById(int id);
 
+        Task<T> GetAsync(Expression<Func<T, bool>> exp);
+
         Task<T> InsertAsync(T entity);
+
+        Task<ICollection<T>> InsertRangeAsync(ICollection<T> entities);
 
         Task<T> UpdateAsync(T entity);
 
@@ -33,6 +38,7 @@ namespace DAL.Repositories.Interfaces
         Task<long> CountAsync(Expression<Func<T, bool>> exp = null);
 
         Task<bool> ExistEntityAsync(int id);
+        Task<bool> ExistEntitiesRangeAsync(ICollection<int> ids);
 
         Task<bool> ExistEntityAsync(Expression<Func<T, bool>> exp);
 

@@ -32,7 +32,7 @@ namespace API.Controllers.V1
         #region endpoints
 
         /// <summary>
-        /// UC: Get heros with theirs cities
+        /// UC : He01 : Get heros with theirs cities
         /// </summary>
         /// <param name="offset">Index to start</param>
         /// <param name="max">Length of of the get list</param>
@@ -53,22 +53,20 @@ namespace API.Controllers.V1
 
 
 
-        //UC: He02:Create a hero in a city but with powers at least one.
-        //[ApiVersion("1.0")]
-        //[Produces("application/json")]
-        //[Route("api/v{version:apiVersion}/hero/Powers/")]
+        //UC : He02 : Create a hero in a city but with powers at least one.
+        [Route("powers")]
+        [HttpPost]
+        [ProducesResponseType(typeof(HeroCityPowersDTO), 200)]
+        public async Task<HeroCityPowersDTO> CreateHeroWithExistedPowers([FromBody] HeroCityPowersDTO heroDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("the parameters are not correct");
+            }
 
-        //[HttpPost]
-        //public async Task Create([FromBody] HeroDTO heroDTO, [FromBody] PowerDTO powerDTO)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        throw new Exception("the parameters are not correct");
-        //    }
+            return await _service.AddNewHeroWithPowersAsync(heroDTO);
 
-        //    await _service.AddNewHeroWithPowerAsync(heroDTO, powerDTO);
-
-        //}
+        }
 
 
 

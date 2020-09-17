@@ -10,6 +10,6 @@ namespace BusinessLogic.Services.Interfaces
     public interface IHeroService:IBaseService<Hero>
     {
         Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max);
-
+        Task<HeroCityPowersDTO> AddNewHeroWithPowersAsync(HeroCityPowersDTO heroDTO);
     }
 }

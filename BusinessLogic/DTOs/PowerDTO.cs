@@ -13,7 +13,7 @@ namespace BusinessLogic.DTOs
         public int Id { get; set; }
 
 
-        [JsonPropertyName("power")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
     }

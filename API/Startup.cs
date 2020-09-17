@@ -34,23 +34,30 @@ namespace API
             services.AddTransient<IBaseRepository<City>, BaseRepository<AppContext, City>>();
             services.AddTransient<IBaseRepository<Hero>, BaseRepository<AppContext, Hero>>();
             services.AddTransient<IBaseRepository<HeroPower>, BaseRepository<AppContext, HeroPower>>();
+            services.AddTransient<IBaseRepository<Power>, BaseRepository<AppContext, Power>>();
             #endregion
 
             #region BaseServices
             services.AddTransient<IBaseService<City>, BaseService<City, IBaseRepository<City>>>();
             services.AddTransient<IBaseService<Hero>, BaseService<Hero, IBaseRepository<Hero>>>();
+            services.AddTransient<IBaseService<HeroPower>, BaseService<HeroPower, IBaseRepository<HeroPower>>>();
+            services.AddTransient<IBaseService<Power>, BaseService<Power, IBaseRepository<Power>>>();
             #endregion
 
 
             #region Repositories        
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<IHeroRepository, HeroRepository>();
+            services.AddTransient<IHeroPowerRepository, HeroPowerRepository>();
+            services.AddTransient<IPowerRepository, PowerRepository>();
 
             #endregion
 
             #region Services
             services.AddTransient<IHeroService, HeroService>();
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IPowerService, PowerService>();
+            services.AddTransient<IHeroPowerService, HeroPowerService>();
             #endregion
         }
 

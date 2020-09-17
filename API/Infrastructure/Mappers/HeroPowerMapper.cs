@@ -13,13 +13,11 @@ namespace API.Infrastructure.Mappers
     {
         public HeroPowerMapper()
         {
-            CreateMap<HeroPower, HeroPowerDTO>()
-                .ForMember(dto => dto.PowerId, map => map.MapFrom(s => s.Power.Id))
-                .ForMember(dto => dto.Power, map => map.MapFrom(s => s.Power.Name))
-                .ForMember(dto => dto.HeroId, map => map.MapFrom(s => s.Hero.Id))
-                .ForMember(dto => dto.Hero, map => map.MapFrom(s => s.Hero.Name));
-            
+
+            CreateMap<HeroPower, HeroPowerDTO>();
+
             CreateMap<HeroPowerDTO, HeroPower>();
+                
         }
     }
 }
