@@ -11,5 +11,9 @@ namespace BusinessLogic.Services.Interfaces
     {
         Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max);
         Task<HeroCityPowersDTO> AddNewHeroWithPowersAsync(HeroCityPowersDTO heroDTO);
+
+
+        Task<HeroCityPowersDTO> UpdateHeroWithPowers(HeroCityPowersDTO heroCityPowersDTO);
+        Task DeleteHeroWithPowersAsync(int id);
     }
 }

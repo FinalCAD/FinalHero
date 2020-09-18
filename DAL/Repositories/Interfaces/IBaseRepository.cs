@@ -21,7 +21,7 @@ namespace DAL.Repositories.Interfaces
         
         IQueryable<T> Query();
 
-        Task<T> GetById(int id);
+        Task<T> GetByIdAsync(int id);
 
         Task<T> GetAsync(Expression<Func<T, bool>> exp);
 

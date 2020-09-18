@@ -12,14 +12,14 @@ namespace BusinessLogic.DTOs
     {
 
 
-        [JsonPropertyName("id")]
         [Required]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
 
-        [JsonPropertyName("name")]
         [Required, MaxLength(40,
             ErrorMessage = "that a hero names, keep it short and beauti and no more than fourthy !!")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
 
@@ -28,9 +28,10 @@ namespace BusinessLogic.DTOs
         public CityDTO CityDTO { get; set; }
 
 
-        [JsonPropertyName("powers")]
         [Required]
+        [JsonPropertyName("powers")]
         public virtual List<HeroPowerDTO> HeroPowerDTOs { get; set; }
+
 
         [Required,DefaultValue(0)]
         [JsonPropertyName("powers_count")]

@@ -41,7 +41,6 @@ namespace BusinessLogic.Services
         public async Task<ICollection<T>> AddOrUpdateRangeAsync(ICollection<T> entries)
         {
             return await _repository.InsertRangeAsync(entries);
-                 
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace BusinessLogic.Services
         /// <returns></returns>
         public async Task DeleteAsync(int id)
         {
-            var entry = await _repository.GetById(id);
+            var entry = await _repository.GetByIdAsync(id);
             if (entry == null)
             { throw new Exception(message: "Entry to delete not existed."); }
 
@@ -81,25 +80,12 @@ namespace BusinessLogic.Services
             return await _repository.ExistEntityAsync(id);
         }
 
-        public Task<bool> ExistedAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<bool> ExistedRangeByIdsAsync(ICollection<int> entitiyIds)
         {
             return await _repository.ExistEntitiesRangeAsync(entitiyIds);
         }
 
-        //public async Task<bool> ExistedRangeAsync(ICollection<T> entities)
-        //{
-        //    return await _repository.ExistEntitiesRangeAsync(entities);
-
-        //}
-        public async Task<bool> ExistedRangeAsync(ICollection<T> entities)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// 
@@ -108,7 +94,7 @@ namespace BusinessLogic.Services
         /// <returns></returns>
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _repository.GetById(id);
+            return await _repository.GetByIdAsync(id);
         }
 
 

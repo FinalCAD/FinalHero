@@ -20,6 +20,8 @@ namespace DAL.Repositories
         public HeroRepository(Context.AppContext context) : base(context)
         {
             _context = context;
+              
+
         }
         #region methods
 

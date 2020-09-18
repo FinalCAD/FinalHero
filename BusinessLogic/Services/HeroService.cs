@@ -39,11 +39,46 @@ namespace BusinessLogic.Services
             _powerService = powerService;
         }
 
+
+
+        #region endpoints
+
+        /// <summary>
+        /// Get heroes includding theirs cities and theirs powers
+        /// </summary>
+        /// <param name="offset">Shift of the selections</param>
+        /// <param name="max">Result length</param>
+        /// <returns>list heros including theirs cities and powers</returns>
+        public async Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max)
+        {
+
+            var heroes = await _repository.GetHeroInclCityAndHeroPowersThenPower(offset, max);
+
+            var heroCityPowersDTOs = _mapper.Map<List<HeroCityPowersDTO>>(heroes);
+
+            var total_count = heroCityPowersDTOs.Count();
+
+            return new HeroResponseDTO()
+            {
+                Entities = heroCityPowersDTOs,
+                Meta = new ListMetaData
+                {
+                    TotalCount = total_count,
+                    Count = offset + Math.Min(max, total_count - offset)
+                }
+            };
+        }
+
+
+        /// <summary>
+        /// Create a new hero with existed power heros
+        /// </summary>
+        /// <param name="heroDTO"></param>
+        /// <returns>the hero with its powers added</returns>
         public async Task<HeroCityPowersDTO> AddNewHeroWithPowersAsync(HeroCityPowersDTO heroDTO)
         {
 
             var heroPowerDTOs = heroDTO.HeroPowerDTOs;
-
 
             // 01 check if parameters are null
             if (heroDTO == null || heroPowerDTOs == null)
@@ -73,68 +108,78 @@ namespace BusinessLogic.Services
             // ** 04 and 5 must work in transaction mode 
 
             // 04 add or update Hero with HeroService
-            if (await _repository.ExistEntityAsync(h => h.Name == heroDTO.Name))
+            if (await _repository.ExistEntityAsync(h => h.Name.ToLower() == heroDTO.Name.ToLower()))
             {
                 throw new Exception("hero already exist");
             }
 
-
             var heroCreated = await _repository.InsertAsync(_mapper.Map<Hero>(heroDTO));
 
 
-            // 05 add or update HeroPower Range with HeroWorkService
-            var heroPowerEntities = new List<HeroPower>();
-            foreach (var hp in heroPowerDTOs)
-            {
-                heroPowerEntities.Add(new HeroPower
+            // 05 add HeroPower Range with HeroWorkService
+            var heroPowerEntities = heroPowerDTOs
+                .Select(x => new HeroPower
                 {
                     HeroId = heroCreated.Id,
-                    PowerId = hp.PowerId
-                });
-            }
+                    PowerId = x.PowerId
+                })
+                .ToList();
 
             var heroPowersCreated = await _heroPowerService.AddOrUpdateRangeAsync(heroPowerEntities);
 
-            // 06 return results for refreshing the entity in front.
+            // 06 undatping return results for refreshing the entity in front.
             heroDTO.Id = heroCreated.Id;
             heroDTO.HeroPowerDTOs = _mapper.Map<List<HeroPowerDTO>>(heroPowersCreated);
 
             return heroDTO;
         }
 
-        #region endpoints
 
-        /// <summary>
-        /// Get heroes
-        /// </summary>
-        /// <param name="offset">Shift of the selections</param>
-        /// <param name="max">Result length</param>
-        /// <returns>list heros including theirs cities and powers</returns>
-        public async Task<HeroResponseDTO> GetHerosWithCityAndPowers(int offset, int max)
+
+        public async Task DeleteHeroWithPowersAsync(int heroId)
         {
 
-            var heroes = await _repository.GetHeroInclCityAndHeroPowersThenPower(offset, max);
-
-            var heroCityPowersDTOs = _mapper.Map<List<HeroCityPowersDTO>>(heroes);
-
-
-            var total_count = heroCityPowersDTOs.Count();
-
-
-            return new HeroResponseDTO()
+            //01 check if the hero is existed
+            var heroInDb = await _repository.GetByIdAsync(heroId);
+            if (heroInDb == null)
             {
-                Entities = heroCityPowersDTOs,
-                Meta = new ListMetaData
-                {
-                    TotalCount = total_count,
-                    Count = offset + Math.Min(max, total_count - offset)
-                }
-            };
+                throw new Exception("Unknown Hero ");
+            }
+
+            //2 Delete hero's powers entries
+            await _heroPowerService.DeleteHeroPowersByHeroId(heroId);
+
+            //3 Delete Hero entry
+            await _repository.DeleteAsync(heroInDb);
         }
 
+        public Task<HeroCityPowersDTO> UpdateHeroWithPowers(HeroCityPowersDTO heroCityPowersDTO)
+        {
+            throw new NotImplementedException();
+            //00 check not null
+            //if (heroCityPowersDTO != null)
+            //    throw new Exception("Entity is null");
+
+            //01 Check if valid hero
 
 
+            //02 Check if valid City
 
+
+            //04 check if there is at least one power in the list.
+
+
+            //03 Check if valid heropowerCity 
+
+
+            //04 update Hero 
+
+
+            //05 update (add,remove) list of hero's power in HeroPower set.
+
+
+            //06 return the update hero with it dependecies
+        }
 
 
         #endregion

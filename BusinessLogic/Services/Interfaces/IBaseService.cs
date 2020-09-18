@@ -22,10 +22,10 @@ namespace BusinessLogic.Services.Interfaces
         Task DeleteAsync(int id);
 
         Task<bool> ExistedAsync(int id);
-        Task<bool> ExistedAsync(T entity);
+        //Task<bool> ExistedAsync(T entity);
 
         Task<bool> ExistedRangeByIdsAsync(ICollection<int> entityIds);
-        Task<bool> ExistedRangeAsync(ICollection<T> entities);
+        //Task<bool> ExistedRangeAsync(ICollection<T> entities);
 
 
         Task DeleteRangeAsync(ICollection<T> entries);
