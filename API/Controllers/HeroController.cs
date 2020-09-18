@@ -2,7 +2,6 @@
 using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
 using BusinessLogic.Services.Interfaces;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -117,11 +116,7 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<HeroDTO> GetById([Required] int id, bool? detailed)
         {
-            var hero = await _service.GetByIdAsync(id);
-
-            var response = Mapper.Map<HeroDTO>(hero);
-
-            return response;
+            return await _service.GetByIdAsync(id);
         }
 
         /// <summary>
@@ -130,9 +125,7 @@ namespace API.Controllers
         [HttpGet("id/{id}/allinfo")]
         public async Task<HeroDetailedDTO> GetByIdDetailed([Required] int id)
         {
-            var response = await _service.GetByIdDetailedAsync(id);
-
-            return response;
+            return await _service.GetByIdDetailedAsync(id);
         }
 
         /// <summary>
@@ -141,11 +134,7 @@ namespace API.Controllers
         [HttpGet("name/{name}")]
         public async Task<HeroDTO> GetByName([Required] string name)
         {
-            var hero = await _service.GetByNameAsync(name);
-
-            var response = Mapper.Map<HeroDTO>(hero);
-
-            return response;
+            return await _service.GetByNameAsync(name);
         }
 
         /// <summary>
@@ -156,9 +145,7 @@ namespace API.Controllers
         [HttpGet("name/{name}/allinfo")]
         public async Task<HeroDetailedDTO> GetByNameDetailed([Required] string name)
         {
-            var response = await _service.GetByNameDetailedAsync(name);
-
-            return response;
+            return await _service.GetByNameDetailedAsync(name);
         }
 
         /// <summary>
@@ -168,7 +155,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<HeroDTO> Post([Required][FromBody] HeroDTO heroDTO)
         {
-            return Mapper.Map<HeroDTO>(await _service.Create(Mapper.Map<Hero>(heroDTO)));
+            return await _service.Create(heroDTO);
         }
 
         /// <summary>
@@ -187,9 +174,9 @@ namespace API.Controllers
         /// </summary>
         /// <param name="heroDTO">Hero to update</param>
         [HttpPut("{hero_id}")]
-        public async Task<HeroDTO> Put([Required][FromBody] HeroDTO heroDTO)
+        public async Task<HeroDTO> Put([Required]int hero_id,[Required][FromBody] HeroDTO heroDTO)
         {
-            return Mapper.Map<HeroDTO>(await _service.Update(Mapper.Map<Hero>(heroDTO)));
+            return await _service.Update(hero_id, heroDTO.Name, heroDTO.CityId);
         }
 
         /// <summary>
@@ -212,7 +199,7 @@ namespace API.Controllers
         [HttpDelete("id/{hero_id}")]
         public async Task<HeroDTO> DeleteById([Required] int hero_id)
         {
-            return Mapper.Map<HeroDTO>(await _service.DeleteById(hero_id));
+            return await _service.DeleteById(hero_id);
         }
 
         /// <summary>
@@ -223,7 +210,7 @@ namespace API.Controllers
         [HttpDelete("name/{hero_name}")]
         public async Task<HeroDTO> DeleteByName([Required] string hero_name)
         {
-            return Mapper.Map<HeroDTO>(await _service.DeleteByName(hero_name));
+            return await _service.DeleteByName(hero_name);
         }
 
         /// <summary>
@@ -232,7 +219,7 @@ namespace API.Controllers
         [HttpDelete("powers/{hero_power_id}")]
         public async Task<HeroPowerDTO> DeleteHeroPowerById([Required] int hero_power_id)
         {
-            return Mapper.Map<HeroPowerDTO>(await _service.DeleteHeroPowerById(hero_power_id));
+            return await _service.DeleteHeroPowerById(hero_power_id);
         }
 
         /// <summary>
@@ -241,7 +228,7 @@ namespace API.Controllers
         [HttpDelete("{hero_id}/powers/{power_id}")]
         public async Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower([Required] int hero_id, [Required] int power_id)
         {
-            return Mapper.Map<HeroPowerDTO>(await _service.DeleteHeroPowerByHeroAndPower(hero_id, power_id));
+            return await _service.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
         }
 
         #endregion

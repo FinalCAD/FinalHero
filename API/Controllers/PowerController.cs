@@ -3,7 +3,6 @@ using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
 using System.Threading.Tasks;
 using BusinessLogic.Services.Interfaces;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 
@@ -48,11 +47,7 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<PowerDTO> GetById([Required] int id)
         {
-            var power = await _service.GetByIdAsync(id);
-
-            var response = Mapper.Map<PowerDTO>(power);
-
-            return response;
+            return await _service.GetByIdAsync(id);
         }
 
         /// <summary>
@@ -62,11 +57,7 @@ namespace API.Controllers
         [HttpGet("name/{name}")]
         public async Task<PowerDTO> GetByName([Required] string name)
         {
-            var power = await _service.GetByNameAsync(name);
-
-            var response = Mapper.Map<PowerDTO>(power);
-
-            return response;
+            return await _service.GetByNameAsync(name);
         }
 
         /// <summary>
@@ -76,7 +67,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<PowerDTO> Post([Required][FromBody] PowerDTO powerDTO)
         {
-            return Mapper.Map<PowerDTO>(await _service.Create(Mapper.Map<Power>(powerDTO)));
+            return await _service.Create(powerDTO);
         }
 
         /// <summary>
@@ -84,9 +75,9 @@ namespace API.Controllers
         /// </summary>
         /// <param name="powerDTO">Power to update</param>
         [HttpPut("{power_id}")]
-        public async Task<PowerDTO> Put([Required][FromBody] PowerDTO powerDTO)
+        public async Task<PowerDTO> Put([Required] int power_id, [Required][FromBody] PowerDTO powerDTO)
         {
-            return Mapper.Map<PowerDTO>(await _service.Update(Mapper.Map<Power>(powerDTO)));
+            return await _service.Update(power_id, powerDTO.Name, powerDTO.Description);
         }
 
         /// <summary>
@@ -97,7 +88,7 @@ namespace API.Controllers
         [HttpDelete("id/{power_id}")]
         public async Task<PowerDTO> DeleteById([Required] int power_id)
         {
-            return Mapper.Map<PowerDTO>(await _service.DeleteById(power_id));
+            return await _service.DeleteById(power_id);
         }
 
         /// <summary>
@@ -108,7 +99,7 @@ namespace API.Controllers
         [HttpDelete("name/{power_name}")]
         public async Task<PowerDTO> DeleteByName([Required] string power_name)
         {
-            return Mapper.Map<PowerDTO>(await _service.DeleteByName(power_name));
+            return await _service.DeleteByName(power_name);
         }
 
         #endregion

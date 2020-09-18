@@ -25,7 +25,7 @@ namespace BusinessLogic.Services
         /// This service gets an entity by its id
         /// </summary>
         /// <param name="id">Entity's id</param>
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsyncBase(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
             return entity;
@@ -35,9 +35,9 @@ namespace BusinessLogic.Services
         /// This service creates an entity
         /// </summary>
         /// <param name="entity">Entity to create</param>
-        public async Task<T> Create(T entity)
+        public async Task<T> CreateBase(T entity)
         {
-            var check = await GetByIdAsync(entity.Id);
+            var check = await GetByIdAsyncBase(entity.Id);
             if (!(check is null))
             {
                 throw new BadRequestException("Cannot create " + typeof(T).Name +" because it already exists");
@@ -50,9 +50,9 @@ namespace BusinessLogic.Services
         /// This service updates an entity
         /// </summary>
         /// <param name="entity">Entity to update</param>
-        public async Task<T> Update(T entity)
+        public async Task<T> UpdateBase(T entity)
         {
-            var check = await GetByIdAsync(entity.Id);
+            var check = await GetByIdAsyncBase(entity.Id);
             if (check is null)
             {
                 throw new BadRequestException("Cannot update " + typeof(T).Name + " because it doesn't exists");
@@ -65,15 +65,15 @@ namespace BusinessLogic.Services
         /// This service deletes an entity by its id
         /// </summary>
         /// <param id="id">Entity's id</param>
-        public virtual async Task<T> DeleteById(int id)
+        public virtual async Task<T> DeleteByIdBase(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await GetByIdAsyncBase(id);
             if (entity is null)
             {
                 throw new NotFoundException("Cannot delete " + typeof(T).Name + " with id " + id + " because not found");
             }
             await _repository.DeleteAsync(entity);
-            return await GetByIdAsync(id);
+            return await GetByIdAsyncBase(id);
         }
     }
 }

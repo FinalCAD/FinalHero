@@ -10,6 +10,8 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IHeroService : IBaseService<Hero>
     {
+        Task<HeroDTO> GetByIdAsync(int id);
+
         Task<HeroesResponseDTO> GetAllAsync();
 
         Task<HeroesDetailedResponseDTO> GetAllDetailedAsync();
@@ -30,9 +32,15 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<HeroDetailedDTO> GetByNameDetailedAsync(string name);
 
+        Task<HeroDTO> Create(HeroDTO heroDTO);
+
         Task<HeroPowerDTO> AddHeroPower(HeroPowerDTO dto);
 
+        Task<HeroDTO> Update(int id, string name, int? city_id);
+
         Task<HeroPowerDTO> UpdateHeroPower(HeroPowerDTO dto);
+
+        Task<HeroDTO> DeleteById(int id);
 
         Task<HeroDTO> DeleteByName(string name);
 

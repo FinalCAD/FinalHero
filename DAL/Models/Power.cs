@@ -19,6 +19,6 @@ namespace DAL.Models
         /// Power's description
         /// </summary>
         [Column("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

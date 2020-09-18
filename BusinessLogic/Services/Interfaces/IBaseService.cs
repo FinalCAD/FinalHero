@@ -5,14 +5,12 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IBaseService<T> where T : class, IBaseEntity
     {
-        //Task<T> CreateOrUpdate(T entry, bool? ignoreQueryFilter = null);
+        Task<T> GetByIdAsyncBase(int id);
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> CreateBase(T entity);
 
-        Task<T> Create(T entity);
+        Task<T> UpdateBase(T entity);
 
-        Task<T> Update(T entity);
-
-        Task<T> DeleteById(int id);
+        Task<T> DeleteByIdBase(int id);
     }
 }

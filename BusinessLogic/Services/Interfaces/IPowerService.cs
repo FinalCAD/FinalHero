@@ -10,9 +10,17 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IPowerService : IBaseService<Power>
     {
+        Task<PowerDTO> GetByIdAsync(int id);
+
         Task<PowersResponseDTO> GetAllAsync();
 
         Task<PowerDTO> GetByNameAsync(string name);
+
+        Task<PowerDTO> Create(PowerDTO powerDTO);
+
+        Task<PowerDTO> Update(int id, string name, string? description);
+
+        Task<PowerDTO> DeleteById(int id);
 
         Task<PowerDTO> DeleteByName(string name);
     }

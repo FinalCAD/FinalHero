@@ -4,7 +4,6 @@ using AutoMapper;
 using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
 using BusinessLogic.Services.Interfaces;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -48,11 +47,7 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<CityDTO> GetById([Required] int id)
         {
-            var cities = await _service.GetByIdAsync(id);
-
-            var response = Mapper.Map<CityDTO>(cities);
-
-            return response;
+            return await _service.GetByIdAsync(id);
         }
 
         /// <summary>
@@ -74,7 +69,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<CityDTO> Post([Required][FromBody] CityDTO cityDTO)
         {
-            return Mapper.Map<CityDTO>(await _service.Create(Mapper.Map<City>(cityDTO)));
+            return await _service.Create(cityDTO.Name);
         }
 
         /// <summary>
@@ -82,9 +77,9 @@ namespace API.Controllers
         /// </summary>
         /// <param name="cityDTO">City to update</param>
         [HttpPut("{city_id}")]
-        public async Task<CityDTO> Put([Required][FromBody] CityDTO cityDTO)
+        public async Task<CityDTO> Put([Required] int city_id, [Required][FromBody] CityDTO cityDTO)
         {
-            return Mapper.Map<CityDTO>(await _service.Update(Mapper.Map<City>(cityDTO)));
+            return await _service.Update(city_id, cityDTO.Name);
         }
 
         /// <summary>
@@ -95,7 +90,7 @@ namespace API.Controllers
         [HttpDelete("id/{city_id}")]
         public async Task<CityDTO> DeleteById([Required] int city_id)
         {
-            return Mapper.Map<CityDTO>(await _service.DeleteById(city_id));
+            return await _service.DeleteById(city_id);
         }
 
         /// <summary>
@@ -106,7 +101,7 @@ namespace API.Controllers
         [HttpDelete("name/{city_name}")]
         public async Task<CityDTO> DeleteByName([Required] string city_name)
         {
-            return Mapper.Map<CityDTO>(await _service.DeleteByName(city_name));
+            return await _service.DeleteByName(city_name);
         }
 
         #endregion

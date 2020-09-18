@@ -30,6 +30,14 @@ namespace BusinessLogic.Services
         #region Methods
 
         /// <summary>
+        /// This service gets a hero by its id
+        /// </summary>
+        public async Task<HeroDTO> GetByIdAsync(int id)
+        {
+            return Mapper.Map<HeroDTO>(await _repository.GetByIdAsync(id));
+        }
+
+        /// <summary>
         /// This service gets all heroes
         /// </summary>
         public async Task<HeroesResponseDTO> GetAllAsync()
@@ -150,13 +158,47 @@ namespace BusinessLogic.Services
             return await GetByIdDetailedAsync(hero.Id);
         }
 
+        /// <summary>
+        /// This service creates a hero
+        /// </summary>
+        public async Task<HeroDTO> Create(HeroDTO heroDTO)
+        {
+            var check = await GetByNameAsync(heroDTO.Name);
+            if (!(check is null))
+            {
+                throw new BadRequestException("Cannot create Hero with name "+ heroDTO.Name +" because it already exists");
+            }
+            var hero = new Hero
+            {
+                Name = heroDTO.Name,
+                CityId = heroDTO.CityId
+            };
+            await CreateBase(hero);
+            return await GetByNameAsync(hero.Name);
+        }
 
         /// <summary>
         /// This service adds a hero power
         /// </summary>
         public async Task<HeroPowerDTO> AddHeroPower(HeroPowerDTO dto)
         {
-            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.Create(Mapper.Map<HeroPower>(dto)));
+            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.CreateBase(Mapper.Map<HeroPower>(dto)));
+        }
+
+        /// <summary>
+        /// This service updates a hero
+        /// </summary>
+        public async Task<HeroDTO> Update(int id, string name, int? city_id)
+        {
+            var hero = new Hero
+            {
+                Id = id,
+                Name = name,
+                CityId = city_id
+            };
+
+            await _repository.UpdateAsync(hero);
+            return Mapper.Map<HeroDTO>(await GetByIdAsyncBase(id));
         }
 
         /// <summary>
@@ -164,7 +206,7 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroPowerDTO> UpdateHeroPower(HeroPowerDTO dto)
         {
-            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.Update(Mapper.Map<HeroPower>(dto)));
+            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.UpdateBase(Mapper.Map<HeroPower>(dto)));
         }
 
         /// <summary>
@@ -172,9 +214,9 @@ namespace BusinessLogic.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public override async Task<Hero> DeleteById(int id)
+        public async Task<HeroDTO> DeleteById(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await GetByIdAsyncBase(id);
             if (entity is null)
             {
                 throw new NotFoundException("Cannot delete Hero with id " + id + " because not found");
@@ -184,7 +226,7 @@ namespace BusinessLogic.Services
             {
                 foreach (HeroPowerDTO heropower in heroes.Entities)
                 {
-                    await _heroPowerService.DeleteById(heropower.Id);
+                    await _heroPowerService.DeleteByIdBase(heropower.Id);
                 }
             }
             await _repository.DeleteAsync(entity);
@@ -197,8 +239,8 @@ namespace BusinessLogic.Services
         /// <param name="name">Hero's name</param>
         public async Task<HeroDTO> DeleteByName(string name)
         {
-            var entity = Mapper.Map<Hero>(await GetByNameAsync(name));
-            return Mapper.Map<HeroDTO>(await DeleteById(entity.Id));
+            var entity = await GetByNameAsync(name);
+            return await DeleteById(entity.Id);
         }
 
         /// <summary>
@@ -206,7 +248,7 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroPowerDTO> DeleteHeroPowerById(int id)
         {
-            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.DeleteById(id));
+            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.DeleteByIdBase(id));
         }
 
         /// <summary>

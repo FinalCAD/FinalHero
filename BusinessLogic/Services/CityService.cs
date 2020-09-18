@@ -8,6 +8,7 @@ using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,18 @@ namespace BusinessLogic.Services
         #region Methods
 
         /// <summary>
+        /// This service gets a city by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<CityDTO> GetByIdAsync(int id)
+        {
+            var entity = Mapper.Map<CityDTO>(await GetByIdAsyncBase(id));
+            return entity;
+        }
+
+
+        /// <summary>
         /// This service gets all cities
         /// </summary>
         public async Task<CitiesResponseDTO> GetAllAsync()
@@ -49,14 +62,36 @@ namespace BusinessLogic.Services
             return Mapper.Map<CityDTO>(city);
         }
 
+        public async Task<CityDTO> Create(string name)
+        {
+            var city = new City
+            {
+                Name = name
+            };
+            await CreateBase(city);
+            return await GetByNameAsync(name);
+        }
+
+        public async Task<CityDTO> Update(int id, string? name)
+        {
+            var city = new City
+            {
+                Id = id,
+                Name = name
+            };
+
+            await _repository.UpdateAsync(city);
+            return await GetByIdAsync(id);
+        }
+
         /// <summary>
         /// This service deletes a city by its id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public override async Task<City> DeleteById(int id)
+        public async Task<CityDTO> DeleteById(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await GetByIdAsyncBase(id);
             if (entity is null)
             {
                 throw new NotFoundException("Cannot delete City with id " + id + " because not found");
@@ -66,7 +101,7 @@ namespace BusinessLogic.Services
             {
                 foreach (HeroDTO hero in heroes.Entities)
                 {
-                    await _heroService.Update(new Hero
+                    await _heroService.UpdateBase(new Hero
                     {
                         Id = hero.Id,
                         Name = hero.Name,
@@ -84,7 +119,7 @@ namespace BusinessLogic.Services
         /// <param name="name">City's name</param>
         public async Task<CityDTO> DeleteByName(string name)
         {
-            var entity = Mapper.Map<City>(await GetByNameAsync(name));
+            var entity = await GetByNameAsync(name);
             if (entity is null)
             {
                 throw new NotFoundException("Cannot delete City with name " + name + " because not found");

@@ -45,7 +45,7 @@ namespace DAL.Repositories
         /// </summary>
         public async Task DeleteAsync(T entity)
         {
-            _context.Remove(entity);
+            _entities.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
@@ -54,7 +54,7 @@ namespace DAL.Repositories
         /// </summary>
         public async Task InsertAsync(T entity)
         {
-            await _context.AddAsync(entity);
+            await _entities.AddAsync(entity);
             _context.SaveChanges();
         }
 
