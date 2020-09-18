@@ -1,3 +1,7 @@
+using API.Mappers;
+using AutoMapper;
+using BusinessLogic.Services;
+using BusinessLogic.Services.Interfaces;
 using DAL.Context;
 using DAL.Repositories;
 using DAL.Repositories.Interfaces;
@@ -7,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using API.Middlewares;
 
 namespace API
 {
@@ -22,9 +27,15 @@ namespace API
 
         public void RegisterServicesAndRepositories(IServiceCollection services)
         {
-            services.AddTransient<IHeroRepository, HeroRepository>();
+            services.AddTransient<ICityService , CityService>();
+            services.AddTransient<IHeroService , HeroService>();
+            services.AddTransient<IPowerService, PowerService>();
+            services.AddTransient<IHeroPowerService, HeroPowerService>();
+            services.AddTransient<ICityRepository , CityRepository>();
+            services.AddTransient<IHeroRepository , HeroRepository>();
+            services.AddTransient<IPowerRepository, PowerRepository>();
+            services.AddTransient<IHeroPowerRepository, HeroPowerRepository>();
         }
-
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,6 +47,9 @@ namespace API
                 var databaseConnectionString = Configuration["Database"];
                 o.UseNpgsql(databaseConnectionString);
             });
+            services.AddAutoMapper(typeof(CityMapper),
+                                    typeof(HeroMapper),
+                                    typeof(PowerMapper));
             RegisterServicesAndRepositories(services);
         }
 
@@ -44,7 +58,12 @@ namespace API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseMiddleware(typeof(ErrorMiddleware));
+            }
+            else
+            {
+                app.UseMiddleware(typeof(ErrorMiddleware));
             }
 
             app.UseHttpsRedirection();
