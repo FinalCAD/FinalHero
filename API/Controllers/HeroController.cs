@@ -164,8 +164,9 @@ namespace API.Controllers
         /// <param name="heroPowerDTO">Power to add to hero</param>
         /// <returns></returns>
         [HttpPost("{hero_id}/powers")]
-        public async Task<HeroPowerDTO> AddHeroPower([Required][FromBody] HeroPowerDTO heroPowerDTO)
+        public async Task<HeroPowerDTO> AddHeroPower([Required] int hero_id, [Required][FromBody] HeroPowerDTO heroPowerDTO)
         {
+            heroPowerDTO.HeroId = hero_id;
             return await _service.AddHeroPower(heroPowerDTO);
         }
 
@@ -184,10 +185,10 @@ namespace API.Controllers
         /// </summary>
         /// <param name="heroPowerDTO">Power to update of hero</param>
         /// <returns></returns>
-        [HttpPut("{hero_id}/powers/{id}")]
-        public async Task<HeroPowerDTO> UpdateHeroPower([Required][FromBody] HeroPowerDTO heroPowerDTO)
+        [HttpPut("{hero_id}/powers/{power_id}")]
+        public async Task<HeroPowerDTO> UpdateHeroPower([Required] int hero_id, [Required] int power_id, [Required][FromBody] HeroPowerDTO heroPowerDTO)
         {
-            return await _service.UpdateHeroPower(heroPowerDTO);
+            return await _service.UpdateHeroPower(hero_id, power_id, heroPowerDTO);
         }
 
 

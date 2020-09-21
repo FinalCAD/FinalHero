@@ -38,7 +38,7 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<HeroDTO> Update(int id, string name, int? city_id);
 
-        Task<HeroPowerDTO> UpdateHeroPower(HeroPowerDTO dto);
+        Task<HeroPowerDTO> UpdateHeroPower(int hero_id, int power_id, HeroPowerDTO dto);
 
         Task<HeroDTO> DeleteById(int id);
 

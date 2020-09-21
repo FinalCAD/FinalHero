@@ -17,14 +17,16 @@ namespace BusinessLogic.Services
     {
         private readonly IHeroRepository _repository;
         private readonly IHeroPowerService _heroPowerService;
+        private readonly IPowerService _powerService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public HeroService(IHeroRepository repository, IHeroPowerService heroPowerService) : base(repository)
+        public HeroService(IHeroRepository repository, IHeroPowerService heroPowerService, IPowerService powerService) : base(repository)
         {
             _repository = repository;
             _heroPowerService = heroPowerService;
+            _powerService = powerService;
         }
 
         #region Methods
@@ -151,7 +153,7 @@ namespace BusinessLogic.Services
         public async Task<HeroDetailedDTO> GetByNameDetailedAsync(string name)
         {
             var hero = await GetByNameAsync(name);
-            if (hero is null)
+            if (hero == null)
             {
                 return null;
             }
@@ -164,7 +166,7 @@ namespace BusinessLogic.Services
         public async Task<HeroDTO> Create(HeroDTO heroDTO)
         {
             var check = await GetByNameAsync(heroDTO.Name);
-            if (!(check is null))
+            if (check != null)
             {
                 throw new BadRequestException("Cannot create Hero with name "+ heroDTO.Name +" because it already exists");
             }
@@ -182,6 +184,21 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroPowerDTO> AddHeroPower(HeroPowerDTO dto)
         {
+            var heroCheck = await GetByIdAsync(dto.HeroId);
+            if (heroCheck == null)
+            {
+                throw new NotFoundException("Cannot add power to nonexistant Hero");
+            }
+            var powerCheck = await _powerService.GetByIdAsync(dto.PowerId);
+            if (powerCheck == null)
+            {
+                throw new NotFoundException("Cannot add nonexistant power to Hero");
+            }
+            var check = await GetHeroPowerByHeroAndPowerAsync(dto.HeroId, dto.PowerId);
+            if (check != null)
+            {
+                throw new BadRequestException("Cannot create this Hero power because it already exists");
+            }
             return Mapper.Map<HeroPowerDTO>(await _heroPowerService.CreateBase(Mapper.Map<HeroPower>(dto)));
         }
 
@@ -190,6 +207,11 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroDTO> Update(int id, string name, int? city_id)
         {
+            var check = await GetByIdAsync(id);
+            if (check == null)
+            {
+                throw new NotFoundException("Cannot update nonexistant Hero");
+            }
             var hero = new Hero
             {
                 Id = id,
@@ -204,8 +226,33 @@ namespace BusinessLogic.Services
         /// <summary>
         /// This service updates a hero power
         /// </summary>
-        public async Task<HeroPowerDTO> UpdateHeroPower(HeroPowerDTO dto)
+        public async Task<HeroPowerDTO> UpdateHeroPower(int hero_id, int power_id, HeroPowerDTO dto)
         {
+            var heroCheck = await GetByIdAsync(dto.HeroId);
+            if (heroCheck == null)
+            {
+                throw new NotFoundException("Cannot update power to nonexistant Hero");
+            }
+
+            var powerCheck = await _powerService.GetByIdAsync(dto.PowerId);
+            if (powerCheck == null)
+            {
+                throw new NotFoundException("Cannot update nonexistant power to Hero");
+            }
+
+            var check = await GetHeroPowerByHeroAndPowerAsync(hero_id, power_id);
+            if (check == null)
+            {
+                throw new BadRequestException("Cannot update nonexistant Hero power");
+            }
+
+            var heroPowerCheck = await GetHeroPowerByHeroAndPowerAsync(dto.HeroId, dto.PowerId);
+            if (heroPowerCheck != null)
+            {
+                throw new BadRequestException("Cannot update this Hero power to another that already exists");
+            }           
+
+            dto.Id = check.Id;
             return Mapper.Map<HeroPowerDTO>(await _heroPowerService.UpdateBase(Mapper.Map<HeroPower>(dto)));
         }
 
@@ -217,12 +264,12 @@ namespace BusinessLogic.Services
         public async Task<HeroDTO> DeleteById(int id)
         {
             var entity = await GetByIdAsyncBase(id);
-            if (entity is null)
+            if (entity == null)
             {
                 throw new NotFoundException("Cannot delete Hero with id " + id + " because not found");
             }
             var heroes = await _heroPowerService.GetAllHeroPowerByHeroAsync(id);
-            if (!(heroes is null))
+            if (!(heroes == null))
             {
                 foreach (HeroPowerDTO heropower in heroes.Entities)
                 {
@@ -240,6 +287,10 @@ namespace BusinessLogic.Services
         public async Task<HeroDTO> DeleteByName(string name)
         {
             var entity = await GetByNameAsync(name);
+            if (entity == null)
+            {
+                throw new NotFoundException("Cannot delete Hero with name " + name + " because not found");
+            }
             return await DeleteById(entity.Id);
         }
 

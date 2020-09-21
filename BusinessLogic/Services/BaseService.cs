@@ -38,7 +38,7 @@ namespace BusinessLogic.Services
         public async Task<T> CreateBase(T entity)
         {
             var check = await GetByIdAsyncBase(entity.Id);
-            if (!(check is null))
+            if (check != null)
             {
                 throw new BadRequestException("Cannot create " + typeof(T).Name +" because it already exists");
             }
@@ -53,9 +53,9 @@ namespace BusinessLogic.Services
         public async Task<T> UpdateBase(T entity)
         {
             var check = await GetByIdAsyncBase(entity.Id);
-            if (check is null)
+            if (check == null)
             {
-                throw new BadRequestException("Cannot update " + typeof(T).Name + " because it doesn't exists");
+                throw new BadRequestException("Cannot update " + typeof(T).Name + " because it doesn't exist");
             }
             await _repository.UpdateAsync(entity);
             return await _repository.GetByIdAsync(entity.Id); ;
@@ -68,7 +68,7 @@ namespace BusinessLogic.Services
         public virtual async Task<T> DeleteByIdBase(int id)
         {
             var entity = await GetByIdAsyncBase(id);
-            if (entity is null)
+            if (entity == null)
             {
                 throw new NotFoundException("Cannot delete " + typeof(T).Name + " with id " + id + " because not found");
             }

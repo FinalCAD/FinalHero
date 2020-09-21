@@ -62,7 +62,7 @@ namespace BusinessLogic.Services
         public async Task<PowerDTO> Create(PowerDTO powerDTO)
         {
             var check = await GetByNameAsync(powerDTO.Name);
-            if (!(check is null))
+            if (check != null)
             {
                 throw new BadRequestException("Cannot create Power with name " + powerDTO.Name + " because it already exists");
             }
@@ -80,6 +80,11 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<PowerDTO> Update(int id, string name, string? description)
         {
+            var check = await GetByIdAsync(id);
+            if (check == null)
+            {
+                throw new NotFoundException("Cannot update nonexistant Power");
+            }
             var power = new Power
             {
                 Id = id,
@@ -99,12 +104,12 @@ namespace BusinessLogic.Services
         public async Task<PowerDTO> DeleteById(int id)
         {
             var entity = await GetByIdAsyncBase(id);
-            if (entity is null)
+            if (entity == null)
             {
                 throw new NotFoundException("Cannot delete Power with id " + id + " because not found");
             }
             var heroes = await _heroPowerService.GetAllHeroPowerByPowerAsync(id);
-            if (!(heroes is null))
+            if (!(heroes == null))
             {
                 foreach (HeroPowerDTO heropower in heroes.Entities)
                 {
@@ -121,7 +126,11 @@ namespace BusinessLogic.Services
         /// <param name="name">Power's name</param>
         public async Task<PowerDTO> DeleteByName(string name)
         {
-            var entity = Mapper.Map<Power>(await GetByNameAsync(name));
+            var entity = await GetByNameAsync(name);
+            if (entity == null)
+            {
+                throw new NotFoundException("Cannot delete Power with name " + name + " because not found");
+            }
             return Mapper.Map<PowerDTO>(await DeleteByIdBase(entity.Id));
         }
 

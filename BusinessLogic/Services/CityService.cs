@@ -64,6 +64,11 @@ namespace BusinessLogic.Services
 
         public async Task<CityDTO> Create(string name)
         {
+            var check = await GetByNameAsync(name);
+            if (check != null)
+            {
+                throw new BadRequestException("Cannot create City because it already exists");
+            }
             var city = new City
             {
                 Name = name
@@ -74,12 +79,16 @@ namespace BusinessLogic.Services
 
         public async Task<CityDTO> Update(int id, string? name)
         {
+            var check = await GetByIdAsync(id);
+            if (check == null)
+            {
+                throw new NotFoundException("Cannot update nonexistant City");
+            }
             var city = new City
             {
                 Id = id,
                 Name = name
             };
-
             await _repository.UpdateAsync(city);
             return await GetByIdAsync(id);
         }
@@ -92,12 +101,12 @@ namespace BusinessLogic.Services
         public async Task<CityDTO> DeleteById(int id)
         {
             var entity = await GetByIdAsyncBase(id);
-            if (entity is null)
+            if (entity == null)
             {
                 throw new NotFoundException("Cannot delete City with id " + id + " because not found");
             }
             var heroes = await _heroService.GetAllHeroesByCityAsync(id);
-            if(!(heroes is null))
+            if(!(heroes == null))
             {
                 foreach (HeroDTO hero in heroes.Entities)
                 {
@@ -120,14 +129,12 @@ namespace BusinessLogic.Services
         public async Task<CityDTO> DeleteByName(string name)
         {
             var entity = await GetByNameAsync(name);
-            if (entity is null)
+            if (entity == null)
             {
                 throw new NotFoundException("Cannot delete City with name " + name + " because not found");
             }
             await DeleteById(entity.Id);
             return await GetByNameAsync(name);
-            /**await _repository.DeleteAsync(entity);
-            return await GetByNameAsync(name);*/
         }
 
         #endregion

@@ -71,7 +71,7 @@ namespace BusinessLogic.Services
         public async Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower(int hero_id, int power_id)
         {
             var entity = await _repository.GetHeroPowerByHeroIdAndPowerIdAsync(hero_id, power_id);
-            if(entity is null)
+            if(entity == null)
             {
                 throw new NotFoundException("Cannot delete beacause Hero " + hero_id + " doesn't have power " + power_id);
             }
