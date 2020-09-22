@@ -17,15 +17,13 @@ namespace BusinessLogic.Services
     public class CityService : BaseService<City>, ICityService
     {
         private readonly ICityRepository _repository;
-        private readonly IHeroService _heroService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public CityService(ICityRepository repository , IHeroService heroService) : base(repository)
+        public CityService(ICityRepository repository) : base(repository)
         {
             _repository = repository;
-            _heroService = heroService;
         }
 
         #region Methods
@@ -100,22 +98,16 @@ namespace BusinessLogic.Services
         /// <returns></returns>
         public async Task<CityDTO> DeleteById(int id)
         {
-            var entity = await GetByIdAsyncBase(id);
+            var entity = await _repository.GetCityWithHeroesAsync(id);
             if (entity == null)
             {
                 throw new NotFoundException("Cannot delete City with id " + id + " because not found");
             }
-            var heroes = await _heroService.GetAllHeroesByCityAsync(id);
-            if(!(heroes == null))
+            if(entity.Heroes.Count > 0)
             {
-                foreach (HeroDTO hero in heroes.Entities)
+                foreach (Hero hero in entity.Heroes)
                 {
-                    await _heroService.UpdateBase(new Hero
-                    {
-                        Id = hero.Id,
-                        Name = hero.Name,
-                        CityId = null
-                    });
+                    hero.CityId = null;
                 }
             }
             await _repository.DeleteAsync(entity);

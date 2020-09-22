@@ -13,5 +13,10 @@ namespace DAL.Models
         /// </summary>
         [Column("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Associated heroes
+        /// </summary>
+        public virtual List<Hero> Heroes { get; set; }
     }
 }

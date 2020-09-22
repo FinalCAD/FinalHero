@@ -28,5 +28,15 @@ namespace DAL.Repositories
         {
             return await _context.Cities.FirstOrDefaultAsync(e => e.Name == name);
         }
+
+        /// <summary>
+        /// Gets city by id with heroes
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<City> GetCityWithHeroesAsync(int id)
+        {
+            return await _context.Cities.Include(e => e.Heroes).FirstOrDefaultAsync(e => e.Id == id);
+        }
     }
 }

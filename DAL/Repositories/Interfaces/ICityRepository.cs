@@ -7,5 +7,7 @@ namespace DAL.Repositories.Interfaces
     public interface ICityRepository : IBaseRepository<City>
     {
         Task<City> GetByNameAsync(string name);
+
+        Task<City> GetCityWithHeroesAsync(int id);
     }
 }
