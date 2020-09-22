@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
+using BusinessLogic.Exceptions;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +48,12 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<CityDTO> GetById([Required] int id)
         {
-            return await _service.GetByIdAsync(id);
+            var response = await _service.GetByIdAsync(id);
+            if (response == null)
+            {
+                throw new NotFoundException("City with id " + id + " not found");
+            }
+            return response;
         }
 
         /// <summary>
@@ -58,7 +64,10 @@ namespace API.Controllers
         public async Task<CityDTO> GetByName([Required] string name)
         {
             var response = await _service.GetByNameAsync(name);
-
+            if (response == null)
+            {
+                throw new NotFoundException("City with name "+ name + " not found");
+            }
             return response;
         }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using BusinessLogic.Exceptions;
 
 namespace API.Controllers
 {
@@ -47,7 +48,12 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<PowerDTO> GetById([Required] int id)
         {
-            return await _service.GetByIdAsync(id);
+            var response = await _service.GetByIdAsync(id);
+            if (response == null)
+            {
+                throw new NotFoundException("Power with id " + id + " not found");
+            }
+            return response;
         }
 
         /// <summary>
@@ -57,7 +63,12 @@ namespace API.Controllers
         [HttpGet("name/{name}")]
         public async Task<PowerDTO> GetByName([Required] string name)
         {
-            return await _service.GetByNameAsync(name);
+            var response = await _service.GetByNameAsync(name);
+            if (response == null)
+            {
+                throw new NotFoundException("Power with name " + name + " not found");
+            }
+            return response;
         }
 
         /// <summary>

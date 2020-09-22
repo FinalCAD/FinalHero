@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
+using BusinessLogic.Exceptions;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -104,7 +105,10 @@ namespace API.Controllers
         public async Task<HeroPowerDTO> GetHeroPowerByHeroAndPower([Required] int hero_id, [Required] int power_id)
         {
             var response = await _service.GetHeroPowerByHeroAndPowerAsync(hero_id, power_id);
-
+            if (response == null)
+            {
+                throw new NotFoundException("Hero power with id " + hero_id + " and "+ power_id + " not found");
+            }
             return response;
         }
 
@@ -116,7 +120,12 @@ namespace API.Controllers
         [HttpGet("id/{id}")]
         public async Task<HeroDTO> GetById([Required] int id, bool? detailed)
         {
-            return await _service.GetByIdAsync(id);
+            var response = await _service.GetByIdAsync(id);
+            if (response == null)
+            {
+                throw new NotFoundException("Hero with id " + id + " not found");
+            }
+            return response;
         }
 
         /// <summary>
@@ -125,7 +134,12 @@ namespace API.Controllers
         [HttpGet("id/{id}/allinfo")]
         public async Task<HeroDetailedDTO> GetByIdDetailed([Required] int id)
         {
-            return await _service.GetByIdDetailedAsync(id);
+            var response = await _service.GetByIdDetailedAsync(id);
+            if (response == null)
+            {
+                throw new NotFoundException("Hero with id " + id + " not found");
+            }
+            return response;
         }
 
         /// <summary>
@@ -134,7 +148,12 @@ namespace API.Controllers
         [HttpGet("name/{name}")]
         public async Task<HeroDTO> GetByName([Required] string name)
         {
-            return await _service.GetByNameAsync(name);
+            var response = await _service.GetByNameAsync(name);
+            if (response == null)
+            {
+                throw new NotFoundException("Hero with name " + name + " not found");
+            }
+            return response;
         }
 
         /// <summary>
@@ -145,7 +164,12 @@ namespace API.Controllers
         [HttpGet("name/{name}/allinfo")]
         public async Task<HeroDetailedDTO> GetByNameDetailed([Required] string name)
         {
-            return await _service.GetByNameDetailedAsync(name);
+            var response = await _service.GetByNameDetailedAsync(name);
+            if (response == null)
+            {
+                throw new NotFoundException("Hero with name " + name + " not found");
+            }
+            return response;
         }
 
         /// <summary>

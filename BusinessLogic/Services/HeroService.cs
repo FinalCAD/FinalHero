@@ -17,15 +17,17 @@ namespace BusinessLogic.Services
     {
         private readonly IHeroRepository _repository;
         private readonly IHeroPowerService _heroPowerService;
+        private readonly ICityService _cityService;
         private readonly IPowerService _powerService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public HeroService(IHeroRepository repository, IHeroPowerService heroPowerService, IPowerService powerService) : base(repository)
+        public HeroService(IHeroRepository repository, IHeroPowerService heroPowerService, ICityService cityService, IPowerService powerService) : base(repository)
         {
             _repository = repository;
             _heroPowerService = heroPowerService;
+            _cityService = cityService;
             _powerService = powerService;
         }
 
@@ -71,6 +73,11 @@ namespace BusinessLogic.Services
         /// <param name="city_id">The city's id</param>
         public async Task<HeroesResponseDTO> GetAllHeroesByCityAsync(int city_id)
         {
+            var check = await _cityService.GetByIdAsync(city_id);
+            if (check == null)
+            {
+                throw new NotFoundException("City with id " + city_id + " not found");
+            }
             var heroes = await _repository.GetAllHeroesByCityAsync(city_id);
 
             return new HeroesResponseDTO() { Entities = Mapper.Map<IEnumerable<HeroDTO>>(heroes).ToList() };
@@ -89,6 +96,11 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroesPowersResponseDTO> GetAllHeroPowerByHeroAsync(int hero_id)
         {
+            var check = await GetByIdAsync(hero_id);
+            if (check == null)
+            {
+                throw new NotFoundException("Hero with id " + hero_id + " not found");
+            }
             return await _heroPowerService.GetAllHeroPowerByHeroAsync(hero_id);
         }
 
@@ -97,8 +109,12 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroesPowersResponseDTO> GetAllHeroPowerByPowerAsync(int power_id)
         {
-            return await _heroPowerService.GetAllHeroPowerByPowerAsync(power_id);
-            
+            var check = await _powerService.GetByIdAsync(power_id);
+            if (check == null)
+            {
+                throw new NotFoundException("Power with id "+ power_id + " not found");
+            }
+            return await _heroPowerService.GetAllHeroPowerByPowerAsync(power_id);           
         }
 
         /// <summary>
@@ -142,7 +158,8 @@ namespace BusinessLogic.Services
         /// <param name="name">Hero's name</param>
         public async Task<HeroDTO> GetByNameAsync(string name)
         {
-            return Mapper.Map<HeroDTO>(await _repository.GetByNameAsync(name));
+            var hero = await _repository.GetByNameAsync(name);
+            return Mapper.Map<HeroDTO>(hero);
         }
 
         /// <summary>
@@ -155,7 +172,7 @@ namespace BusinessLogic.Services
             var hero = await GetByNameAsync(name);
             if (hero == null)
             {
-                return null;
+                throw new NotFoundException("Hero with name " + name + " not found");
             }
             return await GetByIdDetailedAsync(hero.Id);
         }
