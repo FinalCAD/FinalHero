@@ -286,7 +286,7 @@ namespace BusinessLogic.Services
                 throw new NotFoundException("Cannot delete Hero with id " + id + " because not found");
             }
             var heroes = await _heroPowerService.GetAllHeroPowerByHeroAsync(id);
-            if (!(heroes == null))
+            if (heroes != null)
             {
                 foreach (HeroPowerDTO heropower in heroes.Entities)
                 {
