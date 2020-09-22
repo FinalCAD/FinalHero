@@ -335,7 +335,6 @@ namespace BusinessLogic.Tests.Services
             Repository.Setup(e => e.DeleteAsync(It.IsAny<City>()))
                 .Callback((City entity) =>
                 {
-                    entity.Heroes.ForEach(e => e.CityId = null);
                     cities.Remove(entity);
                 });
 

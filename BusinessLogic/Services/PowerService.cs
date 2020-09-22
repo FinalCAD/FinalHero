@@ -93,7 +93,7 @@ namespace BusinessLogic.Services
             };
 
             await _repository.UpdateAsync(power);
-            return Mapper.Map<PowerDTO>(await GetByIdAsyncBase(id));
+            return await GetByIdAsync(id);
         }
 
         /// <summary>
