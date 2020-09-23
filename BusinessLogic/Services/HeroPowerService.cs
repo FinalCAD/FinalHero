@@ -54,7 +54,12 @@ namespace BusinessLogic.Services
 
         public async Task<IEnumerable<HeroPower>> GetAllByHeroIdWithPowerAsync(int id)
         {
-            return await _repository.GetAllByHeroIdWithPowerAsync(id);
+            var heroespowers = await _repository.GetAllByHeroIdWithPowerAsync(id);
+            if (heroespowers == null)
+            {
+                throw new NotFoundException("Hero power with id " + id + " not found");
+            }
+            return heroespowers;
         }
 
         /// <summary>
@@ -62,7 +67,12 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroPowerDTO> GetHeroPowerByHeroAndPowerAsync(int hero_id, int power_id)
         {
-            return Mapper.Map<HeroPowerDTO>(await _repository.GetHeroPowerByHeroIdAndPowerIdAsync(hero_id, power_id));
+            var heropower = await _repository.GetHeroPowerByHeroIdAndPowerIdAsync(hero_id, power_id);
+            if (heropower == null)
+            {
+                throw new NotFoundException("Hero power with id " + hero_id + " and " + power_id + " not found");
+            }
+            return Mapper.Map<HeroPowerDTO>(heropower);
         }
 
         /// <summary>

@@ -105,10 +105,7 @@ namespace API.Controllers
         public async Task<HeroPowerDTO> GetHeroPowerByHeroAndPower([Required] int hero_id, [Required] int power_id)
         {
             var response = await _service.GetHeroPowerByHeroAndPowerAsync(hero_id, power_id);
-            if (response == null)
-            {
-                throw new NotFoundException("Hero power with id " + hero_id + " and "+ power_id + " not found");
-            }
+            
             return response;
         }
 

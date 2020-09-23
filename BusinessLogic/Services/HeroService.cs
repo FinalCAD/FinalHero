@@ -122,6 +122,16 @@ namespace BusinessLogic.Services
         /// </summary>
         public async Task<HeroPowerDTO> GetHeroPowerByHeroAndPowerAsync(int hero_id, int power_id)
         {
+            var checkHero = await GetByIdAsync(hero_id);
+            if (checkHero == null)
+            {
+                throw new NotFoundException("Hero with id " + hero_id + " not found");
+            }
+            var checkPower = await _powerService.GetByIdAsync(power_id);
+            if (checkPower == null)
+            {
+                throw new NotFoundException("Power with id " + power_id + " not found");
+            }
             return await _heroPowerService.GetHeroPowerByHeroAndPowerAsync(hero_id, power_id);
         }
 
@@ -215,8 +225,14 @@ namespace BusinessLogic.Services
             if (check != null)
             {
                 throw new BadRequestException("Cannot create this Hero power because it already exists");
-            }
-            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.CreateBase(Mapper.Map<HeroPower>(dto)));
+            } 
+            var entity = new HeroPower
+            {
+                Id = dto.Id,
+                HeroId = dto.HeroId,
+                PowerId = dto.PowerId
+            };
+            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.CreateBase(entity));
         }
 
         /// <summary>
