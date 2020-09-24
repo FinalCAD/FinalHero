@@ -1206,7 +1206,7 @@ namespace BusinessLogic.Tests.Services
             };
 
             //Act
-            Exception ex = await Assert.ThrowsAnyAsync<BadRequestException>(() => Service.UpdateHeroPower(2, 4, heropower));
+            Exception ex = await Assert.ThrowsAnyAsync<NotFoundException>(() => Service.UpdateHeroPower(2, 4, heropower));
 
             // Assert
             Assert.Equal("Cannot update nonexistant Hero power", ex.Message);

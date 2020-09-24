@@ -276,7 +276,7 @@ namespace BusinessLogic.Services
             var check = await GetHeroPowerByHeroAndPowerAsync(hero_id, power_id);
             if (check == null)
             {
-                throw new BadRequestException("Cannot update nonexistant Hero power");
+                throw new NotFoundException("Cannot update nonexistant Hero power");
             }
 
             var heroPowerCheck = await GetHeroPowerByHeroAndPowerAsync(dto.HeroId, dto.PowerId);
