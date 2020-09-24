@@ -12,6 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using API.Middlewares;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace API
 {
@@ -50,6 +54,27 @@ namespace API
             services.AddAutoMapper(typeof(CityMapper),
                                     typeof(HeroMapper),
                                     typeof(PowerMapper));
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "FinalHero API",
+                    Description = "Here a very decriptive description",
+                    Contact = new OpenApiContact
+                    {
+                        Name = ": vincent.chhim@finalcad.com",
+                        Email = "vincent.chhim@finalcad.com"
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(System.AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
+
+
+
             RegisterServicesAndRepositories(services);
         }
 
@@ -65,6 +90,13 @@ namespace API
             {
                 app.UseMiddleware(typeof(ErrorMiddleware));
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "FinalHero API V1");
+            });
 
             app.UseHttpsRedirection();
 
