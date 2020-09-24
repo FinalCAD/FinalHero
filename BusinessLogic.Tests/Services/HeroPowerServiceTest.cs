@@ -211,7 +211,7 @@ namespace BusinessLogic.Tests.Services
             var power_id = 1;
 
             //Act
-            var res = await Service.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
+            await Service.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
 
             //Assert
             Assert.Single(heropowers);

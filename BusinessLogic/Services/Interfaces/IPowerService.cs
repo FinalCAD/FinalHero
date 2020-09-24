@@ -20,8 +20,8 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<PowerDTO> Update(int id, string name, string? description);
 
-        Task<PowerDTO> DeleteById(int id);
+        Task DeleteById(int id);
 
-        Task<PowerDTO> DeleteByName(string name);
+        Task DeleteByName(string name);
     }
 }

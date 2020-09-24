@@ -101,7 +101,7 @@ namespace BusinessLogic.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<PowerDTO> DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             var entity = await GetByIdAsyncBase(id);
             if (entity == null)
@@ -117,21 +117,20 @@ namespace BusinessLogic.Services
                 }
             }
             await _repository.DeleteAsync(entity);
-            return await GetByIdAsync(id);
         }
 
         /// <summary>
         /// This service deletes an power by its name
         /// </summary>
         /// <param name="name">Power's name</param>
-        public async Task<PowerDTO> DeleteByName(string name)
+        public async Task DeleteByName(string name)
         {
             var entity = await GetByNameAsync(name);
             if (entity == null)
             {
                 throw new NotFoundException("Cannot delete Power with name " + name + " because not found");
             }
-            return Mapper.Map<PowerDTO>(await DeleteByIdBase(entity.Id));
+            await DeleteByIdBase(entity.Id);
         }
 
         #endregion

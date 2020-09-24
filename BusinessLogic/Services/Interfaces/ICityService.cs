@@ -17,8 +17,8 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<CityDTO> Update(int id, string? name);
 
-        Task<CityDTO> DeleteById(int id);
+        Task DeleteById(int id);
 
-        Task<CityDTO> DeleteByName(string name);
+        Task DeleteByName(string name);
     }
 }

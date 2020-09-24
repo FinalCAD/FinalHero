@@ -65,7 +65,7 @@ namespace BusinessLogic.Services
         /// This service deletes an entity by its id
         /// </summary>
         /// <param id="id">Entity's id</param>
-        public virtual async Task<T> DeleteByIdBase(int id)
+        public virtual async Task DeleteByIdBase(int id)
         {
             var entity = await GetByIdAsyncBase(id);
             if (entity == null)
@@ -73,7 +73,6 @@ namespace BusinessLogic.Services
                 throw new NotFoundException("Cannot delete " + typeof(T).Name + " with id " + id + " because not found");
             }
             await _repository.DeleteAsync(entity);
-            return await GetByIdAsyncBase(id);
         }
     }
 }

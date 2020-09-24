@@ -259,11 +259,12 @@ namespace API.Controllers
         /// <returns>Returns nothing if successful</returns>
         /// <response code="404">Hero id not found</response>
         [HttpDelete("id/{hero_id}")]
-        [ProducesResponseType(typeof(HeroDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<HeroDTO> DeleteById([Required] int hero_id)
+        public async Task<IActionResult> DeleteById([Required] int hero_id)
         {
-            return await _service.DeleteById(hero_id);
+            await _service.DeleteById(hero_id);
+            return NoContent();
         }
 
         /// <summary>
@@ -273,11 +274,12 @@ namespace API.Controllers
         /// <returns>Returns nothing if successful</returns>
         /// <response code="404">Hero name not found</response>
         [HttpDelete("name/{hero_name}")]
-        [ProducesResponseType(typeof(HeroDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<HeroDTO> DeleteByName([Required] string hero_name)
+        public async Task<IActionResult> DeleteByName([Required] string hero_name)
         {
-            return await _service.DeleteByName(hero_name);
+            await _service.DeleteByName(hero_name);
+            return NoContent();
         }
 
         /// <summary>
@@ -285,11 +287,12 @@ namespace API.Controllers
         /// </summary>
         /// <response code="404">Hero power id not found</response>
         [HttpDelete("powers/{hero_power_id}")]
-        [ProducesResponseType(typeof(HeroDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<HeroPowerDTO> DeleteHeroPowerById([Required] int hero_power_id)
+        public async Task<IActionResult> DeleteHeroPowerById([Required] int hero_power_id)
         {
-            return await _service.DeleteHeroPowerById(hero_power_id);
+            await _service.DeleteHeroPowerById(hero_power_id);
+            return NoContent();
         }
 
         /// <summary>
@@ -297,11 +300,12 @@ namespace API.Controllers
         /// </summary>
         /// <response code="404">Hero power not found</response>
         [HttpDelete("{hero_id}/powers/{power_id}")]
-        [ProducesResponseType(typeof(HeroDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower([Required] int hero_id, [Required] int power_id)
+        public async Task<IActionResult> DeleteHeroPowerByHeroAndPower([Required] int hero_id, [Required] int power_id)
         {
-            return await _service.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
+            await _service.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
+            return NoContent();
         }
 
         #endregion

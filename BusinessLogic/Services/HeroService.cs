@@ -294,7 +294,7 @@ namespace BusinessLogic.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<HeroDTO> DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             var entity = await GetByIdAsyncBase(id);
             if (entity == null)
@@ -310,37 +310,36 @@ namespace BusinessLogic.Services
                 }
             }
             await _repository.DeleteAsync(entity);
-            return await GetByIdAsync(id);
         }
 
         /// <summary>
         /// This service deletes an hero by its name
         /// </summary>
         /// <param name="name">Hero's name</param>
-        public async Task<HeroDTO> DeleteByName(string name)
+        public async Task DeleteByName(string name)
         {
             var entity = await GetByNameAsync(name);
             if (entity == null)
             {
                 throw new NotFoundException("Cannot delete Hero with name " + name + " because not found");
             }
-            return await DeleteById(entity.Id);
+            await DeleteById(entity.Id);
         }
 
         /// <summary>
         /// This service deletes a hero power by its id
         /// </summary>
-        public async Task<HeroPowerDTO> DeleteHeroPowerById(int id)
+        public async Task DeleteHeroPowerById(int id)
         {
-            return Mapper.Map<HeroPowerDTO>(await _heroPowerService.DeleteByIdBase(id));
+            await _heroPowerService.DeleteByIdBase(id);
         }
 
         /// <summary>
         /// This service deletes a hero power by its hero and power id
         /// </summary>
-        public async Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower(int hero_id, int power_id)
+        public async Task DeleteHeroPowerByHeroAndPower(int hero_id, int power_id)
         {
-            return await _heroPowerService.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
+            await _heroPowerService.DeleteHeroPowerByHeroAndPower(hero_id, power_id);
         }
 
         #endregion

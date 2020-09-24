@@ -113,12 +113,13 @@ namespace API.Controllers
         /// <param name="city_id">City's id</param>
         /// <returns>Returns nothing if successful</returns>
         /// <reponse code="404">NotFound : City with id not found</reponse>
-        [ProducesResponseType(typeof(CityDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
         [HttpDelete("id/{city_id}")]
-        public async Task<CityDTO> DeleteById([Required] int city_id)
+        public async Task<IActionResult> DeleteById([Required] int city_id)
         {
-            return await _service.DeleteById(city_id);
+            await _service.DeleteById(city_id);
+            return NoContent();
         }
 
         /// <summary>
@@ -128,11 +129,12 @@ namespace API.Controllers
         /// <returns>Returns nothing if successful (204)</returns>
         /// <reponse code="404">NotFound : City with name not found</reponse>
         [HttpDelete("name/{city_name}")]
-        [ProducesResponseType(typeof(CityDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<CityDTO> DeleteByName([Required] string city_name)
+        public async Task<IActionResult> DeleteByName([Required] string city_name)
         {
-            return await _service.DeleteByName(city_name);
+            await _service.DeleteByName(city_name);
+            return NoContent();
         }
 
         #endregion

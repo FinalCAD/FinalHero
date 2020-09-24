@@ -113,11 +113,12 @@ namespace API.Controllers
         /// <returns>Returns nothing if successful</returns>
         /// <response code="404">Power not found</response>
         [HttpDelete("id/{power_id}")]
-        [ProducesResponseType(typeof(PowerDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<PowerDTO> DeleteById([Required] int power_id)
+        public async Task<IActionResult> DeleteById([Required] int power_id)
         {
-            return await _service.DeleteById(power_id);
+            await _service.DeleteById(power_id);
+            return NoContent();
         }
 
         /// <summary>
@@ -127,11 +128,12 @@ namespace API.Controllers
         /// <returns>Returns nothing if successful</returns>
         /// <response code="404">Power not found</response>
         [HttpDelete("name/{power_name}")]
-        [ProducesResponseType(typeof(PowerDTO), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
-        public async Task<PowerDTO> DeleteByName([Required] string power_name)
+        public async Task<IActionResult> DeleteByName([Required] string power_name)
         {
-            return await _service.DeleteByName(power_name);
+            await _service.DeleteByName(power_name);
+            return NoContent();
         }
 
         #endregion

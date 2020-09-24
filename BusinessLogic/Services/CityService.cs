@@ -96,7 +96,7 @@ namespace BusinessLogic.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<CityDTO> DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             var entity = await _repository.GetCityWithHeroesAsync(id);
             if (entity == null)
@@ -111,14 +111,13 @@ namespace BusinessLogic.Services
                 }
             }
             await _repository.DeleteAsync(entity);
-            return await GetByIdAsync(id);
         }
 
         /// <summary>
         /// This service deletes an city by its name
         /// </summary>
         /// <param name="name">City's name</param>
-        public async Task<CityDTO> DeleteByName(string name)
+        public async Task DeleteByName(string name)
         {
             var entity = await GetByNameAsync(name);
             if (entity == null)
@@ -126,7 +125,6 @@ namespace BusinessLogic.Services
                 throw new NotFoundException("Cannot delete City with name " + name + " because not found");
             }
             await DeleteById(entity.Id);
-            return await GetByNameAsync(name);
         }
 
         #endregion

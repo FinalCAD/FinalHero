@@ -340,10 +340,9 @@ namespace BusinessLogic.Tests.Services
             var id = 1;
 
             //Act
-            var dto = await Service.DeleteById(id);
+            await Service.DeleteById(id);
 
             // Assert
-            Assert.Null(dto);
             Assert.Empty(cities);
             Assert.Null(wonder.CityId);
         }

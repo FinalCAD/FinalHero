@@ -40,12 +40,12 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<HeroPowerDTO> UpdateHeroPower(int hero_id, int power_id, HeroPowerDTO dto);
 
-        Task<HeroDTO> DeleteById(int id);
+        Task DeleteById(int id);
 
-        Task<HeroDTO> DeleteByName(string name);
+        Task DeleteByName(string name);
 
-        Task<HeroPowerDTO> DeleteHeroPowerById(int id);
+        Task DeleteHeroPowerById(int id);
 
-        Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower(int hero_id, int power_id);
+        Task DeleteHeroPowerByHeroAndPower(int hero_id, int power_id);
     }
 }

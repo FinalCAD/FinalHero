@@ -78,7 +78,7 @@ namespace BusinessLogic.Services
         /// <summary>
         /// This service deletes a hero power by its hero and power id
         /// </summary>
-        public async Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower(int hero_id, int power_id)
+        public async Task DeleteHeroPowerByHeroAndPower(int hero_id, int power_id)
         {
             var entity = await _repository.GetHeroPowerByHeroIdAndPowerIdAsync(hero_id, power_id);
             if(entity == null)
@@ -86,7 +86,6 @@ namespace BusinessLogic.Services
                 throw new NotFoundException("Cannot delete beacause Hero " + hero_id + " doesn't have power " + power_id);
             }
             await _repository.DeleteAsync(entity);
-            return Mapper.Map<HeroPowerDTO>(await _repository.GetHeroPowerByHeroIdAndPowerIdAsync(hero_id, power_id));
         }
         #endregion
     }

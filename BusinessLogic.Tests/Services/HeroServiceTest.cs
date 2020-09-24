@@ -653,10 +653,9 @@ namespace BusinessLogic.Tests.Services
             var id = 2;
 
             //Act
-            var dto = await Service.DeleteById(id);
+            await Service.DeleteById(id);
 
             // Assert
-            Assert.Null(dto);
             Assert.Single(heroes);
             Assert.Single(heropowers);
         }

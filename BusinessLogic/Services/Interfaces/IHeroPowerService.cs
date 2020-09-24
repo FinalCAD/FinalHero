@@ -18,6 +18,6 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<HeroPowerDTO> GetHeroPowerByHeroAndPowerAsync(int hero_id, int power_id);
 
-        Task<HeroPowerDTO> DeleteHeroPowerByHeroAndPower(int hero_id, int power_id);
+        Task DeleteHeroPowerByHeroAndPower(int hero_id, int power_id);
     }
 }

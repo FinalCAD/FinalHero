@@ -11,6 +11,6 @@ namespace BusinessLogic.Services.Interfaces
 
         Task<T> UpdateBase(T entity);
 
-        Task<T> DeleteByIdBase(int id);
+        Task DeleteByIdBase(int id);
     }
 }
