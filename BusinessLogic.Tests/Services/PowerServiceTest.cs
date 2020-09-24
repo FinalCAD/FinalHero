@@ -16,7 +16,6 @@ using DAL.Models;
 using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
