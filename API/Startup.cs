@@ -60,7 +60,7 @@ namespace API
                 {
                     Version = "v1",
                     Title = "FinalHero API",
-                    Description = "Here a very decriptive description",
+                    Description = "Here a very descriptive description",
                     Contact = new OpenApiContact
                     {
                         Name = ": vincent.chhim@finalcad.com",

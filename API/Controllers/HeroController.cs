@@ -2,6 +2,7 @@
 using BusinessLogic.DTO;
 using BusinessLogic.DTO.Responses;
 using BusinessLogic.Exceptions;
+using BusinessLogic.Extensions;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -159,6 +160,23 @@ namespace API.Controllers
                 throw new NotFoundException("Hero with id " + id + " not found");
             }
             return response;
+        }
+
+        /// <summary>
+        /// This endpoint gets a description of a hero by its id
+        /// </summary>
+        /// <response code="404">Hero id not found</response>
+        [HttpGet("id/{id}/description")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseDTO), StatusCodes.Status404NotFound)]
+        public async Task<string> GetByIdDescription([Required] int id)
+        {
+            var response = await _service.GetByIdDetailedAsync(id);
+            if (response == null)
+            {
+                throw new NotFoundException("Hero with id " + id + " not found");
+            }
+            return response.GetDescription();
         }
 
         /// <summary>
