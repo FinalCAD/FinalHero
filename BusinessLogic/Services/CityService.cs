@@ -8,7 +8,6 @@ using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,6 +59,10 @@ namespace BusinessLogic.Services
             return Mapper.Map<CityDTO>(city);
         }
 
+        /// <summary>
+        /// This service creates a city
+        /// </summary>
+        /// <param name="name">City's name</param>
         public async Task<CityDTO> Create(string name)
         {
             var check = await GetByNameAsync(name);
@@ -75,6 +78,11 @@ namespace BusinessLogic.Services
             return await GetByNameAsync(name);
         }
 
+        /// <summary>
+        /// This services updates a city
+        /// </summary>
+        /// <param name="id">City's id</param>
+        /// <param name="name">City's new name</param>
         public async Task<CityDTO> Update(int id, string? name)
         {
             var check = await GetByIdAsync(id);

@@ -14,15 +14,5 @@ namespace DAL.Context
         public AppContext(DbContextOptions<AppContext> options) : base(options)
         {
         }
-
-        /**protected override void OnModelCreating(ModelBuilder modelbuilder)
-        {
-            base.OnModelCreating(modelbuilder);
-
-            foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.SetNull;
-            }
-        }*/
     }
 }

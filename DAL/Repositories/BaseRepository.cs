@@ -22,6 +22,7 @@ namespace DAL.Repositories
         }
 
         #region Methods
+
         /// <summary>
         /// Get all entities
         /// </summary>

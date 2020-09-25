@@ -18,6 +18,7 @@ namespace DAL.Repositories
         }
 
         #region Methods
+
         /// <summary>
         /// Get a hero power by hero and power
         /// </summary>
@@ -46,6 +47,7 @@ namespace DAL.Repositories
         {
             return await _context.HeroesPowers.Where(e => e.PowerId == power_id).ToListAsync();
         }
+
         #endregion
     }
 }

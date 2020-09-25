@@ -52,12 +52,17 @@ namespace BusinessLogic.Services
             return new HeroesPowersResponseDTO() { Entities = Mapper.Map<IEnumerable<HeroPowerDTO>>(heroespowers).ToList() };
         }
 
+        /// <summary>
+        /// This service gets all heroes powers by hero with power associated
+        /// </summary>
+        /// <param name="id">Hero's id</param>
+        /// <returns></returns>
         public async Task<IEnumerable<HeroPower>> GetAllByHeroIdWithPowerAsync(int id)
         {
             var heroespowers = await _repository.GetAllByHeroIdWithPowerAsync(id);
             if (heroespowers == null)
             {
-                throw new NotFoundException("Hero power with id " + id + " not found");
+                throw new NotFoundException("Hero power with hero id " + id + " not found");
             }
             return heroespowers;
         }

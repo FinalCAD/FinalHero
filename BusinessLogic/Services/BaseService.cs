@@ -21,6 +21,8 @@ namespace BusinessLogic.Services
             _repository = repository;
         }
 
+        #region Methods
+
         /// <summary>
         /// This service gets an entity by its id
         /// </summary>
@@ -74,5 +76,7 @@ namespace BusinessLogic.Services
             }
             await _repository.DeleteAsync(entity);
         }
+
+        #endregion
     }
 }
