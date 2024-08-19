@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{02D2B27E-BF91-4C14-A7D0-03AFCC2FAD41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{AD182F40-E22B-431F-8ECD-2BB9B83592C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{AD182F40-E22B-431F-8ECD-2BB9B83592C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{C889F59C-F1EC-4B3C-9FD0-3EC2363C4BB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{50ACA5C5-5137-4978-BB52-8BC41700646F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Tests", "Services.Tests\Services.Tests.csproj", "{50ACA5C5-5137-4978-BB52-8BC41700646F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
